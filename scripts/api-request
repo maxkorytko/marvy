@@ -1,0 +1,31 @@
+#!/bin/bash
+
+if [ -z "$1" ]; then
+	echo "Provide an endpoint"
+fi
+
+SCRIPT_PATH=`dirname $0`
+ENDPOINT=$1
+API_URL="https://gateway.marvel.com:443/v1/public"
+PUBLIC_KEY="f1063bf3f9f2d26309c1591290530dd2"
+PRIVATE_KEY=`cat ${SCRIPT_PATH}/pkey` 
+PUBLIC_KEY="f1063bf3f9f2d26309c1591290530dd2"
+NONCE=`date "+%s"`
+KEY="${NONCE}${PRIVATE_KEY}${PUBLIC_KEY}"
+HASH=`echo -n $KEY | md5`
+AUTH_STRING="apikey=${PUBLIC_KEY}&ts=${NONCE}&hash=${HASH}"
+
+REQUEST="${API_URL}/${ENDPOINT}" 
+if [[ $ENDPOINT == *"?"* ]]; then
+	REQUEST="${REQUEST}&${AUTH_STRING}"
+else
+	REQUEST="${REQUEST}?${AUTH_STRING}"
+fi
+
+OUTPUT_FILE=~/marvel.json
+
+curl --silent $REQUEST | json_pp > $OUTPUT_FILE
+subl $OUTPUT_FILE
+sleep 1
+rm $OUTPUT_FILE
+
