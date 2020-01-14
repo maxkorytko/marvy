@@ -1,4 +1,6 @@
-﻿.gradle
+﻿.env
+
+.gradle
 .DS_Store
 
 # built application files

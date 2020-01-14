@@ -4,16 +4,22 @@ if [ -z "$1" ]; then
 	echo "Provide an endpoint"
 fi
 
-SCRIPT_PATH=`dirname $0`
+if [ -z "${MARVEL_PUBLIC_KEY}" ]; then
+	echo "Set MARVEL_PUBLIC_KEY environment variable"
+	exit 1
+fi
+
+if [ -z "${MARVEL_PRIVATE_KEY}" ]; then
+	echo "Set MARVEL_PUBLIC_KEY environment variable"
+        exit 1
+fi
+
 ENDPOINT=$1
 API_URL="https://gateway.marvel.com:443/v1/public"
-PUBLIC_KEY="f1063bf3f9f2d26309c1591290530dd2"
-PRIVATE_KEY=`cat ${SCRIPT_PATH}/pkey` 
-PUBLIC_KEY="f1063bf3f9f2d26309c1591290530dd2"
 NONCE=`date "+%s"`
-KEY="${NONCE}${PRIVATE_KEY}${PUBLIC_KEY}"
+KEY="${NONCE}${MARVEL_PRIVATE_KEY}${MARVEL_PUBLIC_KEY}"
 HASH=`echo -n $KEY | md5`
-AUTH_STRING="apikey=${PUBLIC_KEY}&ts=${NONCE}&hash=${HASH}"
+AUTH_STRING="apikey=${MARVEL_PUBLIC_KEY}&ts=${NONCE}&hash=${HASH}"
 
 REQUEST="${API_URL}/${ENDPOINT}" 
 if [[ $ENDPOINT == *"?"* ]]; then
