@@ -1,15 +1,21 @@
 package com.maxk.marvy.view
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.navigation.findNavController
-import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.google.android.material.tabs.TabLayoutMediator
 import com.maxk.marvy.R
 import com.maxk.marvy.databinding.ActivityMainBinding
+import com.maxk.marvy.viewmodels.MainActivityViewModel
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : FragmentActivity() {
     private lateinit var binding: ActivityMainBinding
+
+    private val viewModel: MainActivityViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,12 +24,24 @@ class MainActivity : AppCompatActivity() {
             R.layout.activity_main
         )
 
-        setSupportActionBar(binding.toolbar)
-        setupNavigationController()
+        binding.alphabetViewPager.adapter = ViewPagerAdapter(this)
+        setActionBar(binding.toolbar)
+        setupTabBar()
     }
 
-    private fun setupNavigationController() {
-        val navigationController = findNavController(R.id.nav_host_fragment)
-        setupActionBarWithNavController(navigationController, binding.drawerLayout)
+    private fun setupTabBar() {
+        val mediator = TabLayoutMediator(binding.tabs, binding.alphabetViewPager) { tab, position ->
+            tab.text = MainActivityViewModel.alphabet[position]
+        }
+        mediator.attach()
+    }
+
+    private inner class ViewPagerAdapter(activity: FragmentActivity):
+        FragmentStateAdapter(activity) {
+        override fun getItemCount(): Int = MainActivityViewModel.alphabet.size
+
+        override fun createFragment(position: Int): Fragment {
+            return MarvelCharactersFragment()
+        }
     }
 }

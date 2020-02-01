@@ -26,7 +26,6 @@ class MarvelCharactersFragment : Fragment() {
 
         val binding = MarvelCharactersBinding.inflate(layoutInflater, container, false)
 
-        binding.searchView.isIconifiedByDefault = false
         binding.charactersList.adapter = adapter
         setupObservations()
 
