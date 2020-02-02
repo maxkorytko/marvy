@@ -18,15 +18,12 @@
             <com.google.android.material.appbar.AppBarLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:theme="@style/AppTheme.AppBarOverlay">
+                style="@style/Widget.MaterialComponents.AppBarLayout.Surface" >
 
                 <Toolbar
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    android:background="?attr/colorPrimary"
-                    app:popupTheme="@style/AppTheme.PopupOverlay" />
-
+                    android:layout_height="?attr/actionBarSize" />
             </com.google.android.material.appbar.AppBarLayout>
 
             <LinearLayout
@@ -39,7 +36,6 @@
                     android:id="@+id/tabs"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="?attr/colorPrimary"
                     app:tabIndicatorColor="@color/primaryTextColor"
                     app:tabMode="scrollable" />
 
