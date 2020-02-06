@@ -1,17 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/primaryColor</item>
-        <item name="colorPrimaryVariant">@color/primaryDarkColor</item>
-        <item name="colorSecondary">@color/secondaryColor</item>
-        <item name="colorSecondaryVariant">#001256</item>
-        <item name="android:colorBackground">?colorPrimary</item>
-        <item name="android:textColorPrimary">@color/primaryTextColor</item>
-        <item name="android:textColorSecondary">@color/secondaryTextColor</item>
+    <style name="TextAppearance.AppTheme.Body1" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
     </style>
 
-
+    <style name="tabsStyle">
+        <item name="tabMode">scrollable</item>
+        <item name="tabBackground">@drawable/tabs_background</item>
+        <item name="tabIndicatorColor">?colorOnPrimary</item>
+        <item name="tabSelectedTextColor">?colorOnPrimary</item>
+    </style>
 
 </resources>
