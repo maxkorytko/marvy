@@ -1,9 +1,9 @@
 package com.maxk.marvy.repository
 
 import com.maxk.marvy.api.marvel.MarvelService
-import com.maxk.marvy.model.MarvelCharacter
-import com.maxk.marvy.model.MarvelDataWrapper
+import com.maxk.marvy.model.marvel.Character
+import com.maxk.marvy.model.marvel.DataWrapper
 
 class MarvelRepository(private val marvelService: MarvelService) {
-    suspend fun fetchCharacters(): MarvelDataWrapper<MarvelCharacter> = marvelService.charactersAsync()
+    suspend fun fetchCharacters(): DataWrapper<Character> = marvelService.charactersAsync()
 }

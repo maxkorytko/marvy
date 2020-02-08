@@ -6,15 +6,15 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.maxk.marvy.databinding.MarvelCharacterListItemBinding
-import com.maxk.marvy.model.MarvelCharacter
+import com.maxk.marvy.model.marvel.Character
 
 class MarvelCharactersAdapter:
-    ListAdapter<MarvelCharacter, MarvelCharactersAdapter.ViewHolder>(DiffCallback()) {
+    ListAdapter<Character, MarvelCharactersAdapter.ViewHolder>(DiffCallback()) {
 
     class ViewHolder(private val binding:
                      MarvelCharacterListItemBinding): RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: MarvelCharacter) {
+        fun bind(item: Character) {
             binding.name.text = item.name
         }
     }
@@ -33,12 +33,12 @@ class MarvelCharactersAdapter:
     }
 }
 
-private class DiffCallback: DiffUtil.ItemCallback<MarvelCharacter>() {
-    override fun areItemsTheSame(oldItem: MarvelCharacter, newItem: MarvelCharacter): Boolean {
+private class DiffCallback: DiffUtil.ItemCallback<Character>() {
+    override fun areItemsTheSame(oldItem: Character, newItem: Character): Boolean {
         return oldItem === newItem
     }
 
-    override fun areContentsTheSame(oldItem: MarvelCharacter, newItem: MarvelCharacter): Boolean {
+    override fun areContentsTheSame(oldItem: Character, newItem: Character): Boolean {
         return oldItem.name == newItem.name
     }
 }
