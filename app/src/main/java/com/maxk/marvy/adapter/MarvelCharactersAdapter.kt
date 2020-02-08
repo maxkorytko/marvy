@@ -15,7 +15,7 @@ class MarvelCharactersAdapter:
                      MarvelCharacterListItemBinding): RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: Character) {
-            binding.name.text = item.name
+            binding.imageView.image = item.thumbnail
         }
     }
 

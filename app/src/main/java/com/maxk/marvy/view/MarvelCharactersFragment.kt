@@ -9,6 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.maxk.marvy.adapter.MarvelCharactersAdapter
 import com.maxk.marvy.databinding.MarvelCharactersBinding
 import com.maxk.marvy.viewmodels.MarvelCharactersViewModel
@@ -26,6 +28,7 @@ class MarvelCharactersFragment : Fragment() {
 
         val binding = MarvelCharactersBinding.inflate(layoutInflater, container, false)
 
+        binding.charactersList.layoutManager = GridLayoutManager(activity, 2)
         binding.charactersList.adapter = adapter
         setupObservations()
 
@@ -35,7 +38,6 @@ class MarvelCharactersFragment : Fragment() {
 
     private fun setupObservations() {
         viewModel.characters.observe(this, Observer { characters ->
-            Log.d(MarvelCharactersFragment::class.java.simpleName, "$characters.size")
             adapter.submitList(characters.data.results)
         })
     }
