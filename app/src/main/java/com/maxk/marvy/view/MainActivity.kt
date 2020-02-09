@@ -1,7 +1,6 @@
 package com.maxk.marvy.view
 
 import android.os.Bundle
-import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -13,8 +12,6 @@ import com.maxk.marvy.viewmodels.MainActivityViewModel
 
 class MainActivity : FragmentActivity() {
     private lateinit var binding: ActivityMainBinding
-
-    private val viewModel: MainActivityViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +37,7 @@ class MainActivity : FragmentActivity() {
         override fun getItemCount(): Int = MainActivityViewModel.alphabet.size
 
         override fun createFragment(position: Int): Fragment {
-            return MarvelCharactersFragment()
+            return MarvelCharactersFragment(searchTerm = MainActivityViewModel.alphabet[position])
         }
     }
 }

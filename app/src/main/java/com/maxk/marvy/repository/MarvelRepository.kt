@@ -5,5 +5,6 @@ import com.maxk.marvy.model.marvel.Character
 import com.maxk.marvy.model.marvel.DataWrapper
 
 class MarvelRepository(private val marvelService: MarvelService) {
-    suspend fun fetchCharacters(): DataWrapper<Character> = marvelService.charactersAsync()
+    suspend fun searchCharacters(searchTerm: String): DataWrapper<Character> =
+        marvelService.searchCharactersAsync(searchTerm)
 }

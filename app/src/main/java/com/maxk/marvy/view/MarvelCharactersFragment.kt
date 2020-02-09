@@ -17,8 +17,10 @@ import com.maxk.marvy.databinding.MarvelCharactersBinding
 import com.maxk.marvy.viewmodels.MarvelCharactersViewModel
 
 
-class MarvelCharactersFragment : Fragment() {
-    private val viewModel: MarvelCharactersViewModel by viewModels()
+class MarvelCharactersFragment(private val searchTerm: String) : Fragment() {
+    private val viewModel: MarvelCharactersViewModel by viewModels(
+        factoryProducer = { MarvelCharactersViewModel.Factory(searchTerm) }
+    )
 
     private val adapter: MarvelCharactersAdapter by lazy { MarvelCharactersAdapter() }
 
