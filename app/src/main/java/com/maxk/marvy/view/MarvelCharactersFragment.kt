@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.maxk.marvy.adapter.MarvelCharactersAdapter
 import com.maxk.marvy.databinding.MarvelCharactersBinding
+import com.maxk.marvy.result.ResultHandler
 import com.maxk.marvy.viewmodels.MarvelCharactersViewModel
 
 
@@ -24,6 +25,8 @@ class MarvelCharactersFragment(private val searchTerm: String) : Fragment() {
 
     private val adapter: MarvelCharactersAdapter by lazy { MarvelCharactersAdapter() }
 
+    private lateinit var resultHandler: ResultHandler
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -33,6 +36,9 @@ class MarvelCharactersFragment(private val searchTerm: String) : Fragment() {
 
         binding.charactersList.layoutManager = GridLayoutManager(activity, 2)
         binding.charactersList.adapter = adapter
+
+        resultHandler = ResultHandler(binding.charactersList, binding.errorView)
+
         setupObservations()
 
         // Inflate the layout for this fragment
@@ -41,15 +47,8 @@ class MarvelCharactersFragment(private val searchTerm: String) : Fragment() {
 
     private fun setupObservations() {
         viewModel.characters.observe(this, Observer { result ->
+            resultHandler.handle(result)
             result.success { adapter.submitList(it.data.results) }
-
-            result.error {
-                Toast.makeText(
-                    context?.applicationContext,
-                    "Failed to fetch characters",
-                    Toast.LENGTH_LONG
-                ).show()
-            }
         })
     }
 }

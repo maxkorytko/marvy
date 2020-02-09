@@ -1,7 +1,10 @@
 <resources>
     <string name="app_name">Marvy</string>
+    <string name="error_title">:( Error</string>
+    <string name="error_subtitle">We apologize for the inconvenience.</string>
     <string name="marvel_characters_title">Characters</string>
     <string name="characters_search_title">Character Name</string>
     <string name="marvel_characters_search_hint">Search Characters</string>
     <string name="characters_list_empty">List is empty</string>
+
 </resources>

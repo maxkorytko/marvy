@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:padding="?containerPadding"
+    android:visibility="gone"
+    tools:background="?colorPrimary"
+    tools:visibility="visible">
+
+    <TextView
+        android:id="@+id/errorTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?textAppearanceHeadline4"
+        android:layout_marginBottom="@dimen/spaceLarge"
+        android:text="@string/error_title" />
+
+    <TextView
+        android:id="@+id/errorSubtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?textAppearanceHeadline5"
+        android:text="@string/error_subtitle" />
+
+</LinearLayout>

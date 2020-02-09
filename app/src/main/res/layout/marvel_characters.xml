@@ -5,18 +5,31 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="?colorPrimary">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/characters_list"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="?colorPrimary"
+            android:visibility="gone"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            tools:listitem="@layout/marvel_character_list_item" />
+            tools:listitem="@layout/marvel_character_list_item"
+            tools:visibility="visible" />
+
+        <include
+            android:id="@+id/errorView"
+            layout="@layout/error_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

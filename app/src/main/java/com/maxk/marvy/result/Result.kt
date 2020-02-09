@@ -1,11 +1,13 @@
-package com.maxk.marvy.model
+package com.maxk.marvy.result
 
 class Result<T> private constructor(private val data: T? = null,
                                     private val error: Throwable? = null) {
 
     companion object {
-        fun <T>success(data: T): Result<T> = Result(data, null)
-        fun <T>error(error: Throwable) = Result<T>(null, error)
+        fun <T>success(data: T): Result<T> =
+            Result(data, null)
+        fun <T>error(error: Throwable) =
+            Result<T>(null, error)
     }
 
     private val isSuccess: Boolean = data != null

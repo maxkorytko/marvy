@@ -10,7 +10,7 @@ import com.maxk.marvy.model.marvel.Character
 import com.maxk.marvy.model.marvel.DataWrapper
 import com.maxk.marvy.repository.MarvelRepository
 import kotlinx.coroutines.Dispatchers
-import com.maxk.marvy.model.Result
+import com.maxk.marvy.result.Result
 
 class MarvelCharactersViewModel(private val searchTerm: String): ViewModel() {
 
