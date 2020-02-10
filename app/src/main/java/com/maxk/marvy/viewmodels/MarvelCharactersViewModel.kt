@@ -1,10 +1,7 @@
 package com.maxk.marvy.viewmodels
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.liveData
+import androidx.lifecycle.*
 import com.maxk.marvy.api.marvel.MarvelApi
 import com.maxk.marvy.model.marvel.Character
 import com.maxk.marvy.model.marvel.DataWrapper
@@ -26,8 +23,12 @@ class MarvelCharactersViewModel(private val searchTerm: String): ViewModel() {
 
     private val repository = MarvelRepository(MarvelApi.client)
 
+    private val _isLoading: MutableLiveData<Boolean> = MutableLiveData(false)
+    val isLoading: LiveData<Boolean> = _isLoading
+
     val characters: LiveData<Result<DataWrapper<Character>>> = liveData(Dispatchers.IO) {
         try {
+            _isLoading.postValue(true)
             emit(Result.success(repository.searchCharacters(searchTerm)))
         } catch (e: Exception) {
             Log.e(
@@ -36,6 +37,8 @@ class MarvelCharactersViewModel(private val searchTerm: String): ViewModel() {
                 e
             )
             emit(Result.error(e))
+        } finally {
+            _isLoading.postValue(false)
         }
     }
 }

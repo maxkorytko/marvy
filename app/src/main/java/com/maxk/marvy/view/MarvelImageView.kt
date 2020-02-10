@@ -11,8 +11,8 @@ import com.maxk.marvy.R
 import com.maxk.marvy.model.marvel.Image
 
 class MarvelImageView @JvmOverloads constructor(
-    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0):
-    FrameLayout(context, attrs, defStyleAttr) {
+    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
+    : FrameLayout(context, attrs, defStyleAttr) {
 
     private val imageView: ImageView = ImageView(context, attrs, defStyleAttr)
 

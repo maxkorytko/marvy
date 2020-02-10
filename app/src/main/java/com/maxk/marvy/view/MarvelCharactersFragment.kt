@@ -23,16 +23,17 @@ class MarvelCharactersFragment(private val searchTerm: String) : Fragment() {
         factoryProducer = { MarvelCharactersViewModel.Factory(searchTerm) }
     )
 
+    private lateinit var binding: MarvelCharactersBinding
+
     private val adapter: MarvelCharactersAdapter by lazy { MarvelCharactersAdapter() }
 
     private lateinit var resultHandler: ResultHandler
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater,
+                              container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
 
-        val binding = MarvelCharactersBinding.inflate(layoutInflater, container, false)
+        binding = MarvelCharactersBinding.inflate(layoutInflater, container, false)
 
         binding.charactersList.layoutManager = GridLayoutManager(activity, 2)
         binding.charactersList.adapter = adapter
@@ -46,9 +47,13 @@ class MarvelCharactersFragment(private val searchTerm: String) : Fragment() {
     }
 
     private fun setupObservations() {
-        viewModel.characters.observe(this, Observer { result ->
+        viewModel.isLoading.observe({ this.lifecycle }) { isLoading ->
+            binding.progressView.visible = isLoading
+        }
+
+        viewModel.characters.observe({ this.lifecycle }) { result ->
             resultHandler.handle(result)
             result.success { adapter.submitList(it.data.results) }
-        })
+        }
     }
 }
