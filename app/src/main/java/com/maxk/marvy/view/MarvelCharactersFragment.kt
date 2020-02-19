@@ -2,19 +2,17 @@ package com.maxk.marvy.view
 
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.maxk.marvy.adapter.MarvelCharactersAdapter
 import com.maxk.marvy.databinding.MarvelCharactersBinding
-import com.maxk.marvy.result.ResultHandler
+import com.maxk.marvy.result.Complete
+import com.maxk.marvy.result.NetworkResourceHandler
+import com.maxk.marvy.result.ifComplete
 import com.maxk.marvy.viewmodels.MarvelCharactersViewModel
 
 
@@ -27,7 +25,7 @@ class MarvelCharactersFragment(private val searchTerm: String) : Fragment() {
 
     private val adapter: MarvelCharactersAdapter by lazy { MarvelCharactersAdapter() }
 
-    private lateinit var resultHandler: ResultHandler
+    private lateinit var charactersHandler: NetworkResourceHandler
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
@@ -38,7 +36,11 @@ class MarvelCharactersFragment(private val searchTerm: String) : Fragment() {
         binding.charactersList.layoutManager = GridLayoutManager(activity, 2)
         binding.charactersList.adapter = adapter
 
-        resultHandler = ResultHandler(binding.charactersList, binding.errorView)
+        charactersHandler = NetworkResourceHandler(
+            binding.charactersList,
+            binding.errorView,
+            binding.progressView
+        )
 
         setupObservations()
 
@@ -47,13 +49,12 @@ class MarvelCharactersFragment(private val searchTerm: String) : Fragment() {
     }
 
     private fun setupObservations() {
-        viewModel.isLoading.observe({ this.lifecycle }) { isLoading ->
-            binding.progressView.visible = isLoading
-        }
+        viewModel.characters.observe({ this.lifecycle }) { characters ->
+            charactersHandler.handle(characters)
 
-        viewModel.characters.observe({ this.lifecycle }) { result ->
-            resultHandler.handle(result)
-            result.success { adapter.submitList(it.data.results) }
+            characters.ifComplete { result ->
+                result.success { adapter.submitList(it.data.results) }
+            }
         }
     }
 }

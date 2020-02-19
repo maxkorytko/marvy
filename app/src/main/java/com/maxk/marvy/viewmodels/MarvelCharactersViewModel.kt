@@ -6,6 +6,9 @@ import com.maxk.marvy.api.marvel.MarvelApi
 import com.maxk.marvy.model.marvel.Character
 import com.maxk.marvy.model.marvel.DataWrapper
 import com.maxk.marvy.repository.MarvelRepository
+import com.maxk.marvy.result.Complete
+import com.maxk.marvy.result.Loading
+import com.maxk.marvy.result.NetworkResource
 import kotlinx.coroutines.Dispatchers
 import com.maxk.marvy.result.Result
 
@@ -23,22 +26,19 @@ class MarvelCharactersViewModel(private val searchTerm: String): ViewModel() {
 
     private val repository = MarvelRepository(MarvelApi.client)
 
-    private val _isLoading: MutableLiveData<Boolean> = MutableLiveData(false)
-    val isLoading: LiveData<Boolean> = _isLoading
+    val characters: LiveData<NetworkResource<DataWrapper<Character>>> = liveData(Dispatchers.IO) {
+        emit(Loading())
 
-    val characters: LiveData<Result<DataWrapper<Character>>> = liveData(Dispatchers.IO) {
         try {
-            _isLoading.postValue(true)
-            emit(Result.success(repository.searchCharacters(searchTerm)))
+            val characters = repository.searchCharacters(searchTerm)
+            emit(Complete(Result.success(characters)))
         } catch (e: Exception) {
             Log.e(
                 MarvelCharactersViewModel::class.java.simpleName,
                 "Failed to fetch characters",
                 e
             )
-            emit(Result.error(e))
-        } finally {
-            _isLoading.postValue(false)
+            emit(Complete(Result.error(e)))
         }
     }
 }
