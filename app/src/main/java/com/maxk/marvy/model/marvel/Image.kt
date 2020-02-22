@@ -1,9 +1,12 @@
 package com.maxk.marvy.model.marvel
 
 import android.net.Uri
+import android.os.Parcelable
 import com.maxk.marvy.model.ImageSize
+import kotlinx.android.parcel.Parcelize
 
-data class Image(val path: String?, val extension: String?) {
+@Parcelize
+data class Image(val path: String?, val extension: String?) : Parcelable {
     companion object {
         private fun buildImageUrl(path: String, name: String, extension: String): String {
             val url = Uri.parse("$path/$name.$extension").buildUpon()

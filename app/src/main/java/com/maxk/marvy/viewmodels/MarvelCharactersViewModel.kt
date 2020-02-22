@@ -3,7 +3,7 @@ package com.maxk.marvy.viewmodels
 import android.util.Log
 import androidx.lifecycle.*
 import com.maxk.marvy.api.marvel.MarvelApi
-import com.maxk.marvy.model.marvel.Character
+import com.maxk.marvy.model.marvel.MarvelCharacter
 import com.maxk.marvy.model.marvel.DataWrapper
 import com.maxk.marvy.repository.MarvelRepository
 import com.maxk.marvy.result.Complete
@@ -26,7 +26,7 @@ class MarvelCharactersViewModel(private val searchTerm: String): ViewModel() {
 
     private val repository = MarvelRepository(MarvelApi.client)
 
-    val characters: LiveData<NetworkResource<DataWrapper<Character>>> = liveData(Dispatchers.IO) {
+    val characters: LiveData<NetworkResource<DataWrapper<MarvelCharacter>>> = liveData(Dispatchers.IO) {
         emit(Loading())
 
         try {

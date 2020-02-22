@@ -1,4 +1,5 @@
 <resources>
     <dimen name="space">8dp</dimen>
     <dimen name="spaceLarge">16dp</dimen>
+    <dimen name="character_toolbar_height">100dp</dimen>
 </resources>

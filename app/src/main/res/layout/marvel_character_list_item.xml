@@ -6,12 +6,17 @@
     <data>
         <variable
             name="character"
-            type="com.maxk.marvy.model.marvel.Character" />
+            type="com.maxk.marvy.model.marvel.MarvelCharacter" />
+
+        <variable
+            name="characterClickListener"
+            type="com.maxk.marvy.adapter.MarvelCharactersAdapter.CharacterClickListener" />
     </data>
 
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:onClick="@{() -> characterClickListener.onClick(character) }"
     tools:background="@android:color/white">
 
     <com.maxk.marvy.view.MarvelImageView

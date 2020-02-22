@@ -7,6 +7,7 @@ import android.view.Gravity
 import android.widget.FrameLayout
 import android.widget.ImageView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.maxk.marvy.R
 import com.maxk.marvy.model.marvel.Image
 
@@ -57,7 +58,9 @@ class MarvelImageView @JvmOverloads constructor(
             val thumbnailUrl = thumbnailUrl(width, height)
 
             imageUrl.let {
-                var imageRequest = Glide.with(context).load(it)
+                var imageRequest = Glide.with(context)
+                    .load(it)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
 
                 thumbnailUrl.let {
                     imageRequest = imageRequest.thumbnail(

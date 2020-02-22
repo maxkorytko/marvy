@@ -6,17 +6,22 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.maxk.marvy.databinding.MarvelCharacterListItemBinding
-import com.maxk.marvy.model.marvel.Character
+import com.maxk.marvy.model.marvel.MarvelCharacter
 
-class MarvelCharactersAdapter:
-    ListAdapter<Character, MarvelCharactersAdapter.ViewHolder>(DiffCallback()) {
+class MarvelCharactersAdapter(private val characterClickListener: CharacterClickListener)
+    : ListAdapter<MarvelCharacter, MarvelCharactersAdapter.ViewHolder>(DiffCallback()) {
+
+    interface CharacterClickListener {
+        fun onClick(character: MarvelCharacter)
+    }
 
     class ViewHolder(private val binding:
                      MarvelCharacterListItemBinding): RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: Character) {
-            binding.character = item
-            binding.imageView.image = item.thumbnail
+        fun bind(character: MarvelCharacter, characterClickListener: CharacterClickListener) {
+            binding.character = character
+            binding.imageView.image = character.thumbnail
+            binding.characterClickListener = characterClickListener
         }
     }
 
@@ -30,16 +35,16 @@ class MarvelCharactersAdapter:
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        holder.bind(getItem(position), characterClickListener)
     }
 }
 
-private class DiffCallback: DiffUtil.ItemCallback<Character>() {
-    override fun areItemsTheSame(oldItem: Character, newItem: Character): Boolean {
+private class DiffCallback: DiffUtil.ItemCallback<MarvelCharacter>() {
+    override fun areItemsTheSame(oldItem: MarvelCharacter, newItem: MarvelCharacter): Boolean {
         return oldItem === newItem
     }
 
-    override fun areContentsTheSame(oldItem: Character, newItem: Character): Boolean {
+    override fun areContentsTheSame(oldItem: MarvelCharacter, newItem: MarvelCharacter): Boolean {
         return oldItem.name == newItem.name
     }
 }
