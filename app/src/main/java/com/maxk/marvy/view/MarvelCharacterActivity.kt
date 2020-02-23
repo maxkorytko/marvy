@@ -1,14 +1,23 @@
 package com.maxk.marvy.view
 
+import android.animation.ValueAnimator
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
+import android.widget.TextView
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.ViewPropertyAnimatorListenerAdapter
+import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
 import com.maxk.marvy.R
 import com.maxk.marvy.databinding.ActivityMarvelCharacterBinding
 import com.maxk.marvy.model.marvel.MarvelCharacter
+import com.maxk.marvy.viewmodels.MarvelCharacterViewModel
 
 class MarvelCharacterActivity : AppCompatActivity() {
     companion object {
@@ -23,20 +32,124 @@ class MarvelCharacterActivity : AppCompatActivity() {
         }
     }
 
+    private val viewModel: MarvelCharacterViewModel by viewModels(
+        factoryProducer = { MarvelCharacterViewModel.Factory(character) }
+    )
+
+    private val character: MarvelCharacter?
+        get() = intent.getParcelableExtra(CHARACTER_EXTRA)
+
     private val binding: ActivityMarvelCharacterBinding by lazy {
         ActivityMarvelCharacterBinding.inflate(LayoutInflater.from(this))
     }
 
+    private var isCharacterNameCardHidden: Boolean = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        setSupportActionBar(binding.toolbar)
         setContentView(binding.root)
 
-        intent.getParcelableExtra<MarvelCharacter>(CHARACTER_EXTRA)?.let(::bind)
+        binding.viewModel = viewModel
+        binding.imageView.image = viewModel.image
+        binding.descriptionSection.content<TextView> { text = viewModel.description }
+
+        setupActionBar()
+
+        binding.appBar.addOnOffsetChangedListener(
+            OnOffsetChangedListener { appBarLayout, verticalOffset ->
+                val verticalOffset = AppBarVerticalOffset(
+                    verticalOffset,
+                    maxVerticalOffset = appBarLayout.height - binding.toolbar.height
+                )
+
+                fadeInOutImage(verticalOffset)
+                updateToolbar(verticalOffset)
+                updateCharacterNameCard(verticalOffset)
+            })
+
+        binding.root.post { adjustScrollViewPadding(animated = false) }
     }
 
-    private fun bind(character: MarvelCharacter) {
-        binding.collapsingToolbar.title = character.name
+    private fun setupActionBar() {
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = null
+        binding.collapsingToolbar.title = null
     }
+
+    private fun adjustScrollViewPadding(animated: Boolean = true) = with(binding.nestedScrollView) {
+        val additionalPaddingTop = binding.characterName.height / 2
+
+        val animator = if (isCharacterNameCardHidden) {
+            ValueAnimator.ofInt(paddingTop, paddingTop - additionalPaddingTop)
+        } else {
+            ValueAnimator.ofInt(paddingTop, paddingTop + additionalPaddingTop)
+        }
+
+        animator.addUpdateListener { valueAnimator ->
+            setPadding(
+                paddingLeft,
+                valueAnimator.animatedValue as Int,
+                paddingRight,
+                paddingBottom
+            )
+        }
+
+        if (!animated) {
+            animator.duration = 0
+        }
+
+        animator.start()
+    }
+
+    private fun fadeInOutImage(offset: AppBarVerticalOffset) {
+        binding.imageView.alpha = 1 - offset.delta
+    }
+
+    private fun updateToolbar(offset: AppBarVerticalOffset) {
+        val backgroundColor = theme.resolveAttribute(R.attr.colorPrimary)
+        val backgroundDrawable = ColorDrawable(backgroundColor).mutate()
+        val alpha = (255 * offset.delta).toInt()
+        backgroundDrawable.alpha = alpha
+        binding.toolbar.background = backgroundDrawable
+    }
+
+    private fun updateCharacterNameCard(offset: AppBarVerticalOffset) {
+        val animator = ViewCompat.animate(binding.characterNameCard)
+
+        if (offset.delta >= 0.85) {
+            if (!isCharacterNameCardHidden) {
+                isCharacterNameCardHidden = true
+
+                adjustScrollViewPadding()
+
+                animator
+                    .scaleY(0f)
+                    .scaleX(0f)
+                    .setListener(object : ViewPropertyAnimatorListenerAdapter() {
+                        override fun onAnimationEnd(view: View?) {
+                            binding.collapsingToolbar.title = viewModel.title
+                            animator.setListener(null)
+                        }
+                    })
+                    .start()
+            }
+        } else {
+            if (isCharacterNameCardHidden) {
+                isCharacterNameCardHidden = false
+                binding.collapsingToolbar.title = null
+
+                adjustScrollViewPadding()
+
+                ViewCompat.animate(binding.characterNameCard)
+                    .scaleY(1f)
+                    .scaleX(1f)
+                    .start()
+            }
+        }
+    }
+}
+
+private class AppBarVerticalOffset(verticalOffset: Int, maxVerticalOffset: Int) {
+    val delta: Float = 1 - ((verticalOffset + maxVerticalOffset) / maxVerticalOffset.toFloat())
 }

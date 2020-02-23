@@ -6,5 +6,6 @@
     <string name="characters_search_title">Character Name</string>
     <string name="marvel_characters_search_hint">Search Characters</string>
     <string name="characters_list_empty">List is empty</string>
+    <string name="character_description_section_title">Description</string>
 
 </resources>

@@ -9,9 +9,11 @@
         <item name="colorSurface">@color/colorSurface</item>
         <item name="colorOnSurface">@color/colorOnSurface</item>
         <item name="colorSemitransparentSurface">@color/colorSemitransparentSurface</item>
+        <item name="colorControlNormal">?colorOnPrimary</item>
+        <item name="android:colorControlHighlight">?colorPrimaryDark</item>
         <item name="containerPadding">@dimen/space</item>
 
-        <!-- Text Apperance -->
+        <!-- Text Appearance -->
 
         <item name="textAppearanceHeadline4">@style/TextAppearance.AppTheme.Headline4</item>
         <item name="textAppearanceHeadline5">@style/TextAppearance.AppTheme.Headline5</item>

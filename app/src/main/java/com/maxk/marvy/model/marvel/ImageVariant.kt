@@ -14,7 +14,8 @@ private val variants: List<ImageVariant> = listOf(
     ImageVariant(250, 250, "standard_fantastic"),
     // Landscape
     ImageVariant(50, 75, "landscape_small"),
-    ImageVariant(250, 156, "landscape_amazing")
+    ImageVariant(250, 156, "landscape_amazing"),
+    ImageVariant(464, 261, "landscape_incredible")
 )
 
 class ImageVariant(val size: ImageSize, val name: String) {

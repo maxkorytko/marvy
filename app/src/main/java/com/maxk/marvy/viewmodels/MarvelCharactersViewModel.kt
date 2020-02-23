@@ -17,6 +17,7 @@ class MarvelCharactersViewModel(private val searchTerm: String): ViewModel() {
     class Factory(private val searchTerm: String): ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(MarvelCharactersViewModel::class.java)) {
+                @Suppress("UNCHECKED_CAST")
                 return MarvelCharactersViewModel(searchTerm) as T
             }
 

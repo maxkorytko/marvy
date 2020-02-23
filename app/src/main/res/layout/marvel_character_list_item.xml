@@ -17,6 +17,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:onClick="@{() -> characterClickListener.onClick(character) }"
+    android:foreground="?android:attr/selectableItemBackground"
     tools:background="@android:color/white">
 
     <com.maxk.marvy.view.MarvelImageView
@@ -33,7 +34,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:padding="@dimen/space"
-        style="@style/semitransparentSurface"
+        style="@style/SemitransparentSurface"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">

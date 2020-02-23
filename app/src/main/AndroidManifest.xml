@@ -11,8 +11,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".view.MarvelCharacterActivity">
-        </activity>
 
         <activity
             android:name=".view.MainActivity"
@@ -27,6 +25,11 @@
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".view.MarvelCharacterActivity"
+            android:parentActivityName="com.maxk.marvy.view.MainActivity">
+        </activity>
+
     </application>
 
 </manifest>

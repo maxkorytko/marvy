@@ -13,15 +13,35 @@
         <item name="android:textColor">?android:attr/textColorPrimary</item>
     </style>
 
-    <style name="tabsStyle">
+    <style name="TabsStyle">
         <item name="tabMode">scrollable</item>
         <item name="tabBackground">@drawable/tabs_background</item>
         <item name="tabIndicatorColor">?colorOnPrimary</item>
         <item name="tabSelectedTextColor">?colorOnPrimary</item>
     </style>
 
-    <style name="semitransparentSurface">
+    <style name="SemitransparentSurface">
         <item name="android:background">?colorSemitransparentSurface</item>
+    </style>
+
+    <style name="Container">
+        <item name="android:background">?colorPrimary</item>
+        <item name="android:padding">?containerPadding</item>
+    </style>
+
+    <style name="Section" parent="android:Widget">
+        <item name="android:paddingLeft">@dimen/spaceLarge</item>
+        <item name="android:paddingRight">@dimen/spaceLarge</item>
+        <item name="android:paddingTop">@dimen/spaceExtraLarge</item>
+        <item name="android:paddingBottom">@dimen/spaceExtraLarge</item>
+    </style>
+
+    <style name="Divider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:layout_marginTop">@dimen/space</item>
+        <item name="android:layout_marginBottom">@dimen/space</item>
+        <item name="android:background">?colorOnSurface</item>
     </style>
 
 </resources>

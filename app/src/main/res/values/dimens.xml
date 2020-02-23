@@ -1,5 +1,8 @@
 <resources>
+    <dimen name="cardCornerRadius">4dp</dimen>
     <dimen name="space">8dp</dimen>
     <dimen name="spaceLarge">16dp</dimen>
+    <dimen name="spaceExtraLarge">24dp</dimen>
     <dimen name="character_toolbar_height">100dp</dimen>
+    <dimen name="cardElevation">4dp</dimen>
 </resources>

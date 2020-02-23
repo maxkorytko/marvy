@@ -59,9 +59,12 @@ class GridSkeletonView @JvmOverloads constructor(
     private fun createBlock(size: Int): View {
         val container = LinearLayout(context)
 
-        val layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        val containerLayoutParams = LayoutParams(
+            LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
 
-        container.layoutParams = layoutParams
+        container.layoutParams = containerLayoutParams
         container.orientation = HORIZONTAL
         container.gravity = Gravity.CENTER
 

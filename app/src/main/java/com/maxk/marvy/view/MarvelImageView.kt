@@ -41,7 +41,7 @@ class MarvelImageView @JvmOverloads constructor(
             LayoutParams.MATCH_PARENT,
             Gravity.CENTER
         )
-        imageView.scaleType = ImageView.ScaleType.FIT_CENTER
+        imageView.scaleType = ImageView.ScaleType.CENTER_CROP
         addView(imageView)
     }
 

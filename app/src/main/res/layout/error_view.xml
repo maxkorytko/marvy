@@ -6,8 +6,8 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:gravity="center"
-    android:padding="?containerPadding"
     android:visibility="gone"
+    style="@style/Container"
     tools:background="?colorPrimary"
     tools:visibility="visible">
 
