@@ -2,6 +2,7 @@ package com.maxk.marvy.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -9,7 +10,7 @@ import com.maxk.marvy.databinding.MarvelCharacterListItemBinding
 import com.maxk.marvy.model.marvel.MarvelCharacter
 
 class MarvelCharactersAdapter(private val characterClickListener: CharacterClickListener)
-    : ListAdapter<MarvelCharacter, MarvelCharactersAdapter.ViewHolder>(DiffCallback()) {
+    : PagedListAdapter<MarvelCharacter, MarvelCharactersAdapter.ViewHolder>(DiffCallback()) {
 
     interface CharacterClickListener {
         fun onClick(character: MarvelCharacter)
@@ -18,7 +19,9 @@ class MarvelCharactersAdapter(private val characterClickListener: CharacterClick
     class ViewHolder(private val binding:
                      MarvelCharacterListItemBinding): RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(character: MarvelCharacter, characterClickListener: CharacterClickListener) {
+        fun bind(character: MarvelCharacter?, characterClickListener: CharacterClickListener) {
+            if (character == null) return
+
             binding.character = character
             binding.imageView.image = character.thumbnail
             binding.characterClickListener = characterClickListener
@@ -41,7 +44,7 @@ class MarvelCharactersAdapter(private val characterClickListener: CharacterClick
 
 private class DiffCallback: DiffUtil.ItemCallback<MarvelCharacter>() {
     override fun areItemsTheSame(oldItem: MarvelCharacter, newItem: MarvelCharacter): Boolean {
-        return oldItem === newItem
+        return oldItem == newItem
     }
 
     override fun areContentsTheSame(oldItem: MarvelCharacter, newItem: MarvelCharacter): Boolean {

@@ -6,7 +6,9 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface MarvelService {
-    @GET("characters?limit=5")
-    suspend fun searchCharactersAsync(@Query("nameStartsWith") searchTerm: String)
+    @GET("characters?orderBy=name")
+    suspend fun searchCharactersAsync(@Query("nameStartsWith") searchTerm: String,
+                                      @Query("limit") pageSize: Int,
+                                      @Query("offset") offset: Int = 0)
             : DataWrapper<MarvelCharacter>
 }

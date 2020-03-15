@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.maxk.marvy.adapter.MarvelCharactersAdapter
 import com.maxk.marvy.databinding.MarvelCharactersBinding
 import com.maxk.marvy.model.marvel.MarvelCharacter
-import com.maxk.marvy.result.NetworkResourceHandler
-import com.maxk.marvy.result.ifComplete
+import com.maxk.marvy.result.Loading
+import com.maxk.marvy.result.NetworkRequestStatusHandler
 import com.maxk.marvy.viewmodels.MarvelCharactersViewModel
 
 
@@ -33,7 +33,7 @@ class MarvelCharactersFragment(private val searchTerm: String) : Fragment() {
         })
     }
 
-    private lateinit var charactersHandler: NetworkResourceHandler
+    private lateinit var pagingRequestStatusHandler: NetworkRequestStatusHandler
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
@@ -44,7 +44,7 @@ class MarvelCharactersFragment(private val searchTerm: String) : Fragment() {
         binding.charactersList.layoutManager = GridLayoutManager(activity, 2)
         binding.charactersList.adapter = adapter
 
-        charactersHandler = NetworkResourceHandler(
+        pagingRequestStatusHandler = NetworkRequestStatusHandler(
             binding.charactersList,
             binding.errorView,
             binding.progressView
@@ -57,12 +57,14 @@ class MarvelCharactersFragment(private val searchTerm: String) : Fragment() {
     }
 
     private fun setupObservations() {
-        viewModel.characters.observe({ this.lifecycle }) { characters ->
-            charactersHandler.handle(characters)
-
-            characters.ifComplete { result ->
-                result.success { adapter.submitList(it.data.results) }
+        viewModel.pagingRequestStatus.observe({ this.lifecycle }) { requestStatus ->
+            if (requestStatus.isInitialRequest == true) {
+                pagingRequestStatusHandler.handle(requestStatus)
             }
+        }
+
+        viewModel.characters.observe({ this.lifecycle}) {
+            adapter.submitList(it)
         }
     }
 

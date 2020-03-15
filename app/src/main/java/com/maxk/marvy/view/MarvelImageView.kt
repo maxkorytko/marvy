@@ -20,15 +20,7 @@ class MarvelImageView @JvmOverloads constructor(
     var image: Image? = null
         set(value) {
             field = value
-            needsToSetImage = true
-        }
-
-    private var needsToSetImage: Boolean = false
-        set(value) {
-            field = value
-            if (value) {
-                requestLayout()
-            }
+            setImage(width, height)
         }
 
     init {
@@ -47,12 +39,17 @@ class MarvelImageView @JvmOverloads constructor(
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
-        if (needsToSetImage) {
+
+        if (oldw != w || oldh != h) {
             setImage(w, h)
         }
     }
 
     private fun setImage(width: Int, height: Int) {
+        if (width == 0 || height == 0 || image == null) {
+            Glide.with(context).clear(imageView)
+        }
+
         image?.run {
             val imageUrl = url(width, height)
             val thumbnailUrl = thumbnailUrl(width, height)
