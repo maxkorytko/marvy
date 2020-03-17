@@ -33,6 +33,7 @@ class SectionView @JvmOverloads constructor(
         }
 
     fun <T>content(body: T.() -> Unit) where T: View {
+        @Suppress("UNCHECKED_CAST")
         (contentWrapper?.getChildAt(0) as? T)?.let { body(it) }
     }
 

@@ -4,20 +4,31 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.maxk.marvy.R
 import com.maxk.marvy.databinding.MarvelCharacterListItemBinding
 import com.maxk.marvy.model.marvel.MarvelCharacter
 
 class MarvelCharactersAdapter(private val characterClickListener: CharacterClickListener)
-    : PagedListAdapter<MarvelCharacter, MarvelCharactersAdapter.ViewHolder>(DiffCallback()) {
+    : PagedListAdapter<MarvelCharacter, RecyclerView.ViewHolder>(DiffCallback()) {
 
     interface CharacterClickListener {
         fun onClick(character: MarvelCharacter)
     }
 
-    class ViewHolder(private val binding:
-                     MarvelCharacterListItemBinding): RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(private val binding: MarvelCharacterListItemBinding)
+        : RecyclerView.ViewHolder(binding.root) {
+
+        companion object {
+            fun create(parent: ViewGroup): ViewHolder {
+                val binding = MarvelCharacterListItemBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
+                return ViewHolder(binding)
+            }
+        }
 
         fun bind(character: MarvelCharacter?, characterClickListener: CharacterClickListener) {
             if (character == null) return
@@ -28,17 +39,44 @@ class MarvelCharactersAdapter(private val characterClickListener: CharacterClick
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = MarvelCharacterListItemBinding.inflate(
-            LayoutInflater.from(parent.context),
-            parent,
-            false
-        )
-        return ViewHolder(binding)
+    var displayPagingIndicator: Boolean = false
+        set(value) {
+            field = value
+            if (value) {
+                notifyItemInserted(super.getItemCount())
+            } else {
+                notifyItemRemoved(super.getItemCount())
+            }
+        }
+
+    override fun getItemCount(): Int {
+        return super.getItemCount() + if (displayPagingIndicator) 1 else 0
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getItem(position), characterClickListener)
+    override fun getItemViewType(position: Int): Int {
+        return if (displayPagingIndicator && position == itemCount - 1) {
+            R.layout.paging_indicator_layout
+        } else {
+            R.layout.marvel_character_list_item
+        }
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return when (viewType) {
+            R.layout.paging_indicator_layout -> PagingIndicatorViewHolder.create(parent)
+            R.layout.marvel_character_list_item -> ViewHolder.create(parent)
+            else -> throw IllegalArgumentException("unknown view type $viewType")
+        }
+    }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        when (getItemViewType(position)) {
+            R.layout.marvel_character_list_item -> bindCharacterViewHolder(holder, position)
+        }
+    }
+
+    private fun bindCharacterViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        (holder as? ViewHolder)?.bind(getItem(position), characterClickListener)
     }
 }
 

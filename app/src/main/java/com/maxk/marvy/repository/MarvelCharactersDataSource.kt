@@ -57,8 +57,7 @@ class MarvelCharactersDataSource(private val characterName: String)
 
                 callback.onResult(
                     characters.data.results,
-                    characters.data.offset ?: 0,
-                    characters.data.total ?: 0
+                    characters.data.offset ?: 0
                 )
             } catch (e: Exception) {
                 Log.e(

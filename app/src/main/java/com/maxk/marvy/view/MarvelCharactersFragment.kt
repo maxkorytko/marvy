@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.maxk.marvy.adapter.MarvelCharactersAdapter
 import com.maxk.marvy.databinding.MarvelCharactersBinding
 import com.maxk.marvy.model.marvel.MarvelCharacter
@@ -41,7 +42,7 @@ class MarvelCharactersFragment(private val searchTerm: String) : Fragment() {
 
         binding = MarvelCharactersBinding.inflate(layoutInflater, container, false)
 
-        binding.charactersList.layoutManager = GridLayoutManager(activity, 2)
+        binding.charactersList.layoutManager = createRecyclerViewLayoutManager()
         binding.charactersList.adapter = adapter
 
         pagingRequestStatusHandler = NetworkRequestStatusHandler(
@@ -56,10 +57,30 @@ class MarvelCharactersFragment(private val searchTerm: String) : Fragment() {
         return binding.root
     }
 
+    private fun createRecyclerViewLayoutManager(): RecyclerView.LayoutManager {
+        val layoutManager = GridLayoutManager(activity, 2)
+
+        layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+            override fun getSpanSize(position: Int): Int {
+                val pagingRequestStatus = viewModel.pagingRequestStatus.value
+
+                if (pagingRequestStatus is Loading && pagingRequestStatus.isInitialRequest == false) {
+                    return if (position == adapter.itemCount - 1) 2 else 1
+                }
+
+                return 1
+            }
+        }
+
+        return layoutManager
+    }
+
     private fun setupObservations() {
         viewModel.pagingRequestStatus.observe({ this.lifecycle }) { requestStatus ->
             if (requestStatus.isInitialRequest == true) {
                 pagingRequestStatusHandler.handle(requestStatus)
+            } else {
+                adapter.displayPagingIndicator = requestStatus is Loading
             }
         }
 

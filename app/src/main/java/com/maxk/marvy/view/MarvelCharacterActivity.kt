@@ -57,14 +57,14 @@ class MarvelCharacterActivity : AppCompatActivity() {
 
         binding.appBar.addOnOffsetChangedListener(
             OnOffsetChangedListener { appBarLayout, verticalOffset ->
-                val verticalOffset = AppBarVerticalOffset(
+                val appBarVerticalOffset = AppBarVerticalOffset(
                     verticalOffset,
                     maxVerticalOffset = appBarLayout.height - binding.toolbar.height
                 )
 
-                fadeInOutImage(verticalOffset)
-                updateToolbar(verticalOffset)
-                updateCharacterNameCard(verticalOffset)
+                fadeInOutImage(appBarVerticalOffset)
+                updateToolbar(appBarVerticalOffset)
+                updateCharacterNameCard(appBarVerticalOffset)
             })
 
         binding.root.post { adjustScrollViewPadding(animated = false) }
