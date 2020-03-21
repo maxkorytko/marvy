@@ -1,6 +1,7 @@
 package com.maxk.marvy.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
@@ -13,7 +14,7 @@ class MarvelCharactersAdapter(private val characterClickListener: CharacterClick
     : PagedListAdapter<MarvelCharacter, RecyclerView.ViewHolder>(DiffCallback()) {
 
     interface CharacterClickListener {
-        fun onClick(character: MarvelCharacter)
+        fun onClick(character: MarvelCharacter, view: View)
     }
 
     class ViewHolder(private val binding: MarvelCharacterListItemBinding)

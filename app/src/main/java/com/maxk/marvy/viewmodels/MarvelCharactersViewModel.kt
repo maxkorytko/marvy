@@ -3,7 +3,6 @@ package com.maxk.marvy.viewmodels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
 import androidx.paging.PagedList
 import com.maxk.marvy.model.marvel.MarvelCharacter
 import com.maxk.marvy.repository.MarvelCharactersRepository

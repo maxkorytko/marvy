@@ -5,10 +5,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.ActivityOptionsCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.maxk.marvy.R
 import com.maxk.marvy.adapter.MarvelCharactersAdapter
 import com.maxk.marvy.databinding.MarvelCharactersBinding
 import com.maxk.marvy.model.marvel.MarvelCharacter
@@ -28,8 +30,8 @@ class MarvelCharactersFragment(private val searchTerm: String) : Fragment() {
 
     private val adapter: MarvelCharactersAdapter by lazy {
         MarvelCharactersAdapter(object : MarvelCharactersAdapter.CharacterClickListener {
-            override fun onClick(character: MarvelCharacter) {
-                show(character)
+            override fun onClick(character: MarvelCharacter, view: View) {
+                show(character, sharedElement = view.findViewById(R.id.characterName))
             }
         })
     }
@@ -89,7 +91,19 @@ class MarvelCharactersFragment(private val searchTerm: String) : Fragment() {
         }
     }
 
-    private fun show(character: MarvelCharacter) {
-        MarvelCharacterActivity.start(this.context, character)
+    private fun show(character: MarvelCharacter, sharedElement: View) {
+        if (activity == null) {
+            MarvelCharacterActivity.start(this.context, character)
+            return
+        }
+
+        (activity as? MainActivity)?.let {
+            val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                it,
+                sharedElement,
+                MarvelCharacterActivity.VIEW_NAME_CHARACTER_NAME
+            )
+            MarvelCharacterActivity.start(this.context, character, options.toBundle())
+        }
     }
 }

@@ -27,8 +27,10 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".view.MarvelCharacterActivity"
-            android:parentActivityName="com.maxk.marvy.view.MainActivity">
+        <activity
+            android:name=".view.MarvelCharacterActivity"
+            android:parentActivityName="com.maxk.marvy.view.MainActivity"
+            android:launchMode="singleTop">
         </activity>
 
     </application>

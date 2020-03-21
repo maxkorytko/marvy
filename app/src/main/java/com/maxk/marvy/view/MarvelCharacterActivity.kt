@@ -1,11 +1,13 @@
 package com.maxk.marvy.view
 
+import android.R
 import android.animation.ValueAnimator
 import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
 import androidx.activity.viewModels
@@ -14,20 +16,21 @@ import androidx.core.app.ActivityCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.ViewPropertyAnimatorListenerAdapter
 import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
-import com.maxk.marvy.R
 import com.maxk.marvy.databinding.ActivityMarvelCharacterBinding
 import com.maxk.marvy.model.marvel.MarvelCharacter
 import com.maxk.marvy.viewmodels.MarvelCharacterViewModel
 
 class MarvelCharacterActivity : AppCompatActivity() {
     companion object {
+        const val VIEW_NAME_CHARACTER_NAME: String = "marvel_character:name"
+
         private const val CHARACTER_EXTRA = "marvel_character_extra"
 
-        fun start(context: Context?, character: MarvelCharacter) {
+        fun start(context: Context?, character: MarvelCharacter, options: Bundle? = null) {
             context?.let {
                 val intent = Intent(it, MarvelCharacterActivity::class.java)
                 intent.putExtra(CHARACTER_EXTRA, character)
-                ActivityCompat.startActivity(it, intent, null)
+                ActivityCompat.startActivity(it, intent, options)
             }
         }
     }
@@ -52,6 +55,8 @@ class MarvelCharacterActivity : AppCompatActivity() {
         binding.viewModel = viewModel
         binding.imageView.image = viewModel.image
         binding.descriptionSection.content<TextView> { text = viewModel.description }
+
+        ViewCompat.setTransitionName(binding.characterName, VIEW_NAME_CHARACTER_NAME)
 
         setupActionBar()
 
@@ -147,6 +152,13 @@ class MarvelCharacterActivity : AppCompatActivity() {
                     .start()
             }
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.home -> finishAfterTransition()
+        }
+        return true
     }
 }
 
