@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.annotation.ColorInt
+import androidx.core.view.isVisible
 import com.maxk.marvy.R
 import com.maxk.marvy.databinding.SectionViewBinding
 
@@ -22,8 +23,8 @@ class SectionView @JvmOverloads constructor(
         set(value) {
             field = value
             binding.contentTitle.text = value
-            binding.contentTitle.visible = value?.isEmpty() == false
-            binding.separator.visible = value?.isEmpty() == false
+            binding.contentTitle.isVisible = value?.isEmpty() == false
+            binding.separator.isVisible = value?.isEmpty() == false
         }
 
     @ColorInt var color: Int = resources.getColor(R.color.colorSurface, context.theme)

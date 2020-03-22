@@ -1,7 +1,7 @@
 package com.maxk.marvy.result
 
 import android.view.View
-import com.maxk.marvy.view.visible
+import androidx.core.view.isVisible
 
 class NetworkRequestStatusHandler(private val contentView: View,
                                   private val errorView: View? = null,
@@ -9,22 +9,22 @@ class NetworkRequestStatusHandler(private val contentView: View,
 
     fun <T>handle(status: NetworkRequestStatus<T>) {
         when (status) {
-            is Loading -> progressView?.visible = true
+            is Loading -> progressView?.isVisible = true
             is Complete -> handle(status.result)
         }
     }
 
     private fun <T>handle(result: Result<T>) {
-        progressView?.visible = false
+        progressView?.isVisible = false
 
         result.fold(
             onSuccess = {
-                contentView.visible = true
-                errorView?.visible = false
+                contentView.isVisible = true
+                errorView?.isVisible = false
             },
             onFailure = {
-                contentView.visible = false
-                errorView?.visible = true
+                contentView.isVisible = false
+                errorView?.isVisible = true
             }
         )
     }

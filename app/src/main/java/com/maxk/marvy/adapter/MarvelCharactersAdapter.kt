@@ -37,6 +37,15 @@ class MarvelCharactersAdapter(private val characterClickListener: CharacterClick
             binding.character = character
             binding.imageView.image = character.thumbnail
             binding.characterClickListener = characterClickListener
+
+            with(binding.imageView) {
+                alpha = 0f
+                scaleX = 1.05f
+                scaleY = 1.05f
+                animate()
+                    .alpha(1f).scaleX(1f).scaleY(1f)
+                    .start()
+            }
         }
     }
 

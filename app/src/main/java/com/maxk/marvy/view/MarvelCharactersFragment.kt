@@ -18,10 +18,7 @@ import com.maxk.marvy.result.Loading
 import com.maxk.marvy.result.NetworkRequestStatusHandler
 import com.maxk.marvy.viewmodels.MarvelCharactersViewModel
 
-
 class MarvelCharactersFragment(private val searchTerm: String) : Fragment() {
-
-
     private val viewModel: MarvelCharactersViewModel by viewModels(
         factoryProducer = { MarvelCharactersViewModel.Factory(searchTerm) }
     )
