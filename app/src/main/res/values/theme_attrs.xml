@@ -2,4 +2,5 @@
 <resources>
     <attr name="colorSemitransparentSurface" format="reference" />
     <attr name="containerPadding" format="reference" />
+    <attr name="animationDurationShort" format="reference" />
 </resources>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <merge>
+        <ViewSwitcher
+            android:id="@+id/view_switcher"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:layout_height="50dp"
+            tools:background="?colorPrimary">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/space"
+                android:layout_gravity="center_vertical|start"
+                android:text="@string/app_name"
+                android:textAppearance="?textAppearanceBody1"
+                tools:text="Marvy" />
+
+            <TextView
+                android:id="@+id/search_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="@dimen/space"
+                android:textAppearance="?textAppearanceBody1"
+                android:alpha="0.5"
+                android:text="@string/search_action_view_hint"/>
+
+        </ViewSwitcher>
+    </merge>
+</layout>
