@@ -1,4 +1,4 @@
-package com.maxk.marvy.result
+package com.maxk.marvy.api
 
 sealed class NetworkRequestStatus<T>(val isInitialRequest: Boolean? = null)
 

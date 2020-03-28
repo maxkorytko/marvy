@@ -10,7 +10,7 @@
 
         <variable
             name="characterClickListener"
-            type="com.maxk.marvy.adapter.MarvelCharactersAdapter.CharacterClickListener" />
+            type="com.maxk.marvy.characters.MarvelCharactersAdapter.CharacterClickListener" />
     </data>
 
 <androidx.constraintlayout.widget.ConstraintLayout

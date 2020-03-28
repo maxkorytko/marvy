@@ -1,4 +1,4 @@
-package com.maxk.marvy.viewmodels
+package com.maxk.marvy.characters.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -10,7 +10,9 @@ class MarvelCharacterViewModel(character: MarvelCharacter?): ViewModel() {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(MarvelCharacterViewModel::class.java)) {
                 @Suppress("UNCHECKED_CAST")
-                return MarvelCharacterViewModel(character) as T
+                return MarvelCharacterViewModel(
+                    character
+                ) as T
             }
 
             throw IllegalArgumentException("Unable to construct view model")

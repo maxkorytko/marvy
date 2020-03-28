@@ -1,4 +1,4 @@
-package com.maxk.marvy.adapter
+package com.maxk.marvy.characters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +7,7 @@ import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.maxk.marvy.R
+import com.maxk.marvy.adapter.PagingIndicatorViewHolder
 import com.maxk.marvy.databinding.MarvelCharacterListItemBinding
 import com.maxk.marvy.model.marvel.MarvelCharacter
 
@@ -27,7 +28,9 @@ class MarvelCharactersAdapter(private val characterClickListener: CharacterClick
                     parent,
                     false
                 )
-                return ViewHolder(binding)
+                return ViewHolder(
+                    binding
+                )
             }
         }
 
@@ -73,8 +76,12 @@ class MarvelCharactersAdapter(private val characterClickListener: CharacterClick
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
-            R.layout.paging_indicator_layout -> PagingIndicatorViewHolder.create(parent)
-            R.layout.marvel_character_list_item -> ViewHolder.create(parent)
+            R.layout.paging_indicator_layout -> PagingIndicatorViewHolder.create(
+                parent
+            )
+            R.layout.marvel_character_list_item -> ViewHolder.create(
+                parent
+            )
             else -> throw IllegalArgumentException("unknown view type $viewType")
         }
     }

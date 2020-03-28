@@ -1,4 +1,4 @@
-package com.maxk.marvy.repository
+package com.maxk.marvy.characters.repository
 
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.DataSource

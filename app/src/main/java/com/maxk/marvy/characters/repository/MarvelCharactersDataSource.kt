@@ -1,4 +1,4 @@
-package com.maxk.marvy.repository
+package com.maxk.marvy.characters.repository
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
@@ -6,9 +6,9 @@ import androidx.paging.PositionalDataSource
 import com.maxk.marvy.api.marvel.MarvelService
 import com.maxk.marvy.di.ServiceLocator
 import com.maxk.marvy.model.marvel.MarvelCharacter
-import com.maxk.marvy.result.Complete
-import com.maxk.marvy.result.Loading
-import com.maxk.marvy.result.NetworkRequestStatus
+import com.maxk.marvy.api.Complete
+import com.maxk.marvy.api.Loading
+import com.maxk.marvy.api.NetworkRequestStatus
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job

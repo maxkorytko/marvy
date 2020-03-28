@@ -1,4 +1,4 @@
-package com.maxk.marvy.result
+package com.maxk.marvy.api
 
 import android.view.View
 import androidx.core.view.isVisible

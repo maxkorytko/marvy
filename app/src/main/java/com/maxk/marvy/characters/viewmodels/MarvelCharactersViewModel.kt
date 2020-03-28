@@ -1,19 +1,21 @@
-package com.maxk.marvy.viewmodels
+package com.maxk.marvy.characters.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.paging.PagedList
 import com.maxk.marvy.model.marvel.MarvelCharacter
-import com.maxk.marvy.repository.MarvelCharactersRepository
-import com.maxk.marvy.result.NetworkRequestStatus
+import com.maxk.marvy.characters.repository.MarvelCharactersRepository
+import com.maxk.marvy.api.NetworkRequestStatus
 
 class MarvelCharactersViewModel(private val searchTerm: String): ViewModel() {
     class Factory(private val searchTerm: String): ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(MarvelCharactersViewModel::class.java)) {
                 @Suppress("UNCHECKED_CAST")
-                return MarvelCharactersViewModel(searchTerm) as T
+                return MarvelCharactersViewModel(
+                    searchTerm
+                ) as T
             }
 
             throw IllegalArgumentException("Unable to construct view model")

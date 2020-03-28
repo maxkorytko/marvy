@@ -1,4 +1,4 @@
-package com.maxk.marvy.view
+package com.maxk.marvy.characters
 
 
 import android.os.Bundle
@@ -11,12 +11,12 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.maxk.marvy.R
-import com.maxk.marvy.adapter.MarvelCharactersAdapter
+import com.maxk.marvy.MainActivity
 import com.maxk.marvy.databinding.MarvelCharactersBinding
 import com.maxk.marvy.model.marvel.MarvelCharacter
-import com.maxk.marvy.result.Loading
-import com.maxk.marvy.result.NetworkRequestStatusHandler
-import com.maxk.marvy.viewmodels.MarvelCharactersViewModel
+import com.maxk.marvy.api.Loading
+import com.maxk.marvy.api.NetworkRequestStatusHandler
+import com.maxk.marvy.characters.viewmodels.MarvelCharactersViewModel
 
 class MarvelCharactersFragment(private val searchTerm: String) : Fragment() {
     private val viewModel: MarvelCharactersViewModel by viewModels(
@@ -26,7 +26,8 @@ class MarvelCharactersFragment(private val searchTerm: String) : Fragment() {
     private lateinit var binding: MarvelCharactersBinding
 
     private val adapter: MarvelCharactersAdapter by lazy {
-        MarvelCharactersAdapter(object : MarvelCharactersAdapter.CharacterClickListener {
+        MarvelCharactersAdapter(object :
+            MarvelCharactersAdapter.CharacterClickListener {
             override fun onClick(character: MarvelCharacter, view: View) {
                 show(character, sharedElement = view.findViewById(R.id.characterName))
             }
@@ -44,11 +45,12 @@ class MarvelCharactersFragment(private val searchTerm: String) : Fragment() {
         binding.charactersList.layoutManager = createRecyclerViewLayoutManager()
         binding.charactersList.adapter = adapter
 
-        pagingRequestStatusHandler = NetworkRequestStatusHandler(
-            binding.charactersList,
-            binding.errorView,
-            binding.progressView
-        )
+        pagingRequestStatusHandler =
+            NetworkRequestStatusHandler(
+                binding.charactersList,
+                binding.errorView,
+                binding.progressView
+            )
 
         setupObservations()
 
