@@ -25,6 +25,7 @@
                 android:layout_height="match_parent"
                 android:padding="@dimen/space"
                 android:textAppearance="?textAppearanceBody1"
+                android:foreground="?android:attr/selectableItemBackground"
                 android:alpha="0.5"
                 android:text="@string/search_action_view_hint"/>
 

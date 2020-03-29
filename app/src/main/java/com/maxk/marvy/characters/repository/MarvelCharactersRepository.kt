@@ -7,7 +7,9 @@ import com.maxk.marvy.model.marvel.MarvelCharacter
 import com.maxk.marvy.model.marvel.PagedDataWrapper
 
 class MarvelCharactersRepository {
-    fun searchCharacters(characterName: String, pageSize: Int): PagedDataWrapper<MarvelCharacter> {
+    fun searchCharacters(characterName: String,
+                         pageSize: Int = 10): PagedDataWrapper<MarvelCharacter> {
+
         val sourceFactory = MarvelCharactersDataSourceFactory(characterName)
 
         val config = PagedList.Config.Builder()

@@ -2,6 +2,7 @@ package com.maxk.marvy.di
 
 import com.maxk.marvy.api.marvel.MarvelApi
 import com.maxk.marvy.api.marvel.MarvelService
+import com.maxk.marvy.characters.repository.MarvelCharactersRepository
 
 interface ServiceLocator {
     companion object {
@@ -16,8 +17,13 @@ interface ServiceLocator {
     }
 
     fun getMarvelService(): MarvelService
+    fun getMarvelCharactersRepository(): MarvelCharactersRepository
 }
 
 class DefaultServiceLocator : ServiceLocator {
     override fun getMarvelService(): MarvelService = MarvelApi.client
+
+    override fun getMarvelCharactersRepository(): MarvelCharactersRepository {
+        return MarvelCharactersRepository()
+    }
 }

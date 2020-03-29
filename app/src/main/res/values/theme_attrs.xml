@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <attr name="colorOnPrimary25" format="reference" />
     <attr name="colorSemitransparentSurface" format="reference" />
     <attr name="containerPadding" format="reference" />
     <attr name="animationDurationShort" format="reference" />

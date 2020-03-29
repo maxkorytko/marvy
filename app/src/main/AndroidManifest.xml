@@ -33,6 +33,18 @@
             android:launchMode="singleTop">
         </activity>
 
+        <activity android:name=".search.SearchableActivity"
+            android:launchMode="singleTask"
+            android:parentActivityName=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+        </activity>
+
     </application>
 
 </manifest>

@@ -8,6 +8,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 import com.maxk.marvy.databinding.ActivityMainBinding
 import com.maxk.marvy.characters.MarvelCharactersFragment
+import com.maxk.marvy.search.SearchableActivity
 
 class MainActivity : FragmentActivity() {
     companion object {
@@ -49,6 +50,10 @@ class MainActivity : FragmentActivity() {
         binding = DataBindingUtil.setContentView(this,
             R.layout.activity_main
         )
+
+        binding.titleView.onSearchBarClicked = {
+            SearchableActivity.start(this)
+        }
 
         binding.alphabetViewPager.adapter = ViewPagerAdapter(this)
         setActionBar(binding.toolbar)

@@ -44,4 +44,9 @@
         <item name="android:background">?colorOnSurface</item>
     </style>
 
+    <style name="SearchView">
+        <item name="android:textColorHint">?colorOnPrimary25</item>
+        <item name="colorControlActivated">?colorOnPrimary</item>
+    </style>
+
 </resources>

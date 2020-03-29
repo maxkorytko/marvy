@@ -20,6 +20,7 @@
                 android:contentInsetStart="0dp">
 
                 <com.maxk.marvy.view.TitleView
+                    android:id="@+id/titleView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="@dimen/space" />

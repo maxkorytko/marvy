@@ -10,13 +10,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.maxk.marvy.R
 import com.maxk.marvy.MainActivity
-import com.maxk.marvy.databinding.MarvelCharactersBinding
-import com.maxk.marvy.model.marvel.MarvelCharacter
+import com.maxk.marvy.R
 import com.maxk.marvy.api.Loading
 import com.maxk.marvy.api.NetworkRequestStatusHandler
 import com.maxk.marvy.characters.viewmodels.MarvelCharactersViewModel
+import com.maxk.marvy.databinding.MarvelCharactersBinding
+import com.maxk.marvy.model.marvel.MarvelCharacter
 
 class MarvelCharactersFragment(private val searchTerm: String) : Fragment() {
     private val viewModel: MarvelCharactersViewModel by viewModels(

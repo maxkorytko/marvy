@@ -21,6 +21,8 @@ class TitleView @JvmOverloads constructor(
     private val binding: TitleViewBinding
     private val switchTimer = Timer()
 
+    var onSearchBarClicked: (() -> Unit)? = null
+
     init {
         val layoutInflater = LayoutInflater.from(context)
         binding = TitleViewBinding.inflate(layoutInflater, this, true)
@@ -31,6 +33,10 @@ class TitleView @JvmOverloads constructor(
                 purge()
             }
             switchViews()
+        }
+
+        binding.searchView.setOnClickListener {
+            onSearchBarClicked?.invoke()
         }
 
         binding.searchView.background = GradientDrawable().apply {
