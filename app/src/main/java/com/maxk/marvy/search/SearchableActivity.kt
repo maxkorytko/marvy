@@ -7,21 +7,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.maxk.marvy.R
 import com.maxk.marvy.api.Loading
 import com.maxk.marvy.api.NetworkRequestStatusHandler
-import com.maxk.marvy.characters.MarvelCharactersAdapter
+import com.maxk.marvy.characters.MarvelCharactersListFragment
 import com.maxk.marvy.databinding.ActivitySearchBinding
 import com.maxk.marvy.databinding.SearchViewBinding
-import com.maxk.marvy.model.marvel.MarvelCharacter
 import com.maxk.marvy.view.showKeyboard
 
 class SearchableActivity : AppCompatActivity() {
@@ -36,54 +32,29 @@ class SearchableActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySearchBinding
 
-    private val viewModel: SearchableViewModel by viewModels()
-
     private lateinit var searchRequestStatusHandler: NetworkRequestStatusHandler
 
-    private val adapter: MarvelCharactersAdapter by lazy {
-        MarvelCharactersAdapter(object :
-            MarvelCharactersAdapter.CharacterClickListener {
-            override fun onClick(character: MarvelCharacter, view: View) {
+    private var charactersListFragment: MarvelCharactersListFragment? = null
 
-            }
-        })
-    }
+    private val viewModel: SearchableViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_search)
 
-        binding.charactersList.layoutManager = createRecyclerViewLayoutManager()
-        binding.charactersList.adapter = adapter
+        charactersListFragment = supportFragmentManager.findFragmentById(
+            R.id.characters_list_fragment) as? MarvelCharactersListFragment
 
         searchRequestStatusHandler =
             NetworkRequestStatusHandler(
-                binding.charactersList,
+                charactersListFragment?.view,
                 binding.errorView,
                 binding.progressView
             )
 
         setupActionBar()
         setupObservers()
-    }
-
-    private fun createRecyclerViewLayoutManager(): RecyclerView.LayoutManager {
-        val layoutManager = GridLayoutManager(this, 2)
-
-        layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
-            override fun getSpanSize(position: Int): Int {
-                val pagingRequestStatus = viewModel.pagingRequestStatus.value
-
-                if (pagingRequestStatus is Loading && pagingRequestStatus.isInitialRequest == false) {
-                    return if (position == adapter.itemCount - 1) 2 else 1
-                }
-
-                return 1
-            }
-        }
-
-        return layoutManager
     }
 
     private fun setupActionBar() {
@@ -124,7 +95,7 @@ class SearchableActivity : AppCompatActivity() {
 
     private fun setupObservers() {
         viewModel.characters.observe({ lifecycle }) { characters ->
-            adapter.submitList(characters)
+            charactersListFragment?.submitList(characters)
         }
 
         viewModel.searchRequestStatus.observe({ this.lifecycle }) { requestStatus ->
@@ -132,7 +103,7 @@ class SearchableActivity : AppCompatActivity() {
         }
 
         viewModel.pagingRequestStatus.observe({ this.lifecycle }) { requestStatus ->
-            adapter.displayPagingIndicator = requestStatus is Loading
+            charactersListFragment?.displaysPagingIndicator = requestStatus is Loading
         }
     }
 }

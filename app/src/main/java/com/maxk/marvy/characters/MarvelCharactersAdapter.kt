@@ -52,7 +52,7 @@ class MarvelCharactersAdapter(private val characterClickListener: CharacterClick
         }
     }
 
-    var displayPagingIndicator: Boolean = false
+    var displaysPagingIndicator: Boolean = false
         set(value) {
             field = value
             if (value) {
@@ -63,11 +63,11 @@ class MarvelCharactersAdapter(private val characterClickListener: CharacterClick
         }
 
     override fun getItemCount(): Int {
-        return super.getItemCount() + if (displayPagingIndicator) 1 else 0
+        return super.getItemCount() + if (displaysPagingIndicator) 1 else 0
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (displayPagingIndicator && position == itemCount - 1) {
+        return if (displaysPagingIndicator && position == itemCount - 1) {
             R.layout.paging_indicator_layout
         } else {
             R.layout.marvel_character_list_item
