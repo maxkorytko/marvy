@@ -36,6 +36,8 @@ class SearchableActivity : AppCompatActivity() {
 
     private var charactersListFragment: MarvelCharactersListFragment? = null
 
+    private var searchView: SearchView? = null
+
     private val viewModel: SearchableViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,6 +57,7 @@ class SearchableActivity : AppCompatActivity() {
 
         setupActionBar()
         setupObservers()
+        setupEventListeners()
     }
 
     private fun setupActionBar() {
@@ -65,7 +68,8 @@ class SearchableActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menu?.add("")?.apply {
-            actionView = createSearchView()
+            searchView = createSearchView()
+            actionView = searchView
             setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
         }
 
@@ -104,6 +108,13 @@ class SearchableActivity : AppCompatActivity() {
 
         viewModel.pagingRequestStatus.observe({ this.lifecycle }) { requestStatus ->
             charactersListFragment?.displaysPagingIndicator = requestStatus is Loading
+        }
+    }
+
+    private fun setupEventListeners() {
+        charactersListFragment?.listView?.setOnTouchListener { _, _ -> Boolean
+            searchView?.clearFocus()
+            false
         }
     }
 }

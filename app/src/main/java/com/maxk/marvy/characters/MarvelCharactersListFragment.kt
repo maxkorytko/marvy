@@ -9,9 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.maxk.marvy.MainActivity
 import com.maxk.marvy.R
-import com.maxk.marvy.api.Loading
 import com.maxk.marvy.databinding.MarvelCharactersListBinding
 import com.maxk.marvy.model.marvel.MarvelCharacter
 
@@ -32,6 +30,8 @@ class MarvelCharactersListFragment : Fragment() {
             field = value
             adapter.displaysPagingIndicator = value
         }
+
+    val listView: RecyclerView? get() = binding.charactersList
 
     override fun onCreateView(
         inflater: LayoutInflater,
