@@ -9,9 +9,14 @@ class NetworkRequestStatusHandler(private val contentView: View?,
 
     fun <T>handle(status: NetworkRequestStatus<T>) {
         when (status) {
-            is Loading -> progressView?.isVisible = true
+            is Loading -> handleLoading()
             is Complete -> handle(status.result)
         }
+    }
+
+    private fun handleLoading() {
+        progressView?.isVisible = true
+        errorView?.isVisible = false
     }
 
     private fun <T>handle(result: Result<T>) {

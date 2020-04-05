@@ -35,7 +35,8 @@
 
         <activity android:name=".search.SearchableActivity"
             android:launchMode="singleTask"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".MainActivity"
+            android:windowSoftInputMode="adjustNothing">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>

@@ -4,10 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.paging.PagedList
-import com.maxk.marvy.model.marvel.MarvelCharacter
-import com.maxk.marvy.characters.repository.MarvelCharactersRepository
 import com.maxk.marvy.api.NetworkRequestStatus
 import com.maxk.marvy.di.ServiceLocator
+import com.maxk.marvy.model.marvel.MarvelCharacter
+import com.maxk.marvy.model.marvel.PagedMetadata
 
 class MarvelCharactersViewModel(private val searchTerm: String): ViewModel() {
     class Factory(private val searchTerm: String): ViewModelProvider.Factory {
@@ -25,7 +25,7 @@ class MarvelCharactersViewModel(private val searchTerm: String): ViewModel() {
 
     private val pagedData = repository.searchCharacters(searchTerm)
 
-    val pagingRequestStatus: LiveData<NetworkRequestStatus<Unit>> = pagedData.pagingRequestStatus
+    val pagingRequestStatus: LiveData<NetworkRequestStatus<PagedMetadata>> = pagedData.pagingRequestStatus
 
     val characters: LiveData<PagedList<MarvelCharacter>> = pagedData.pagedList
 }

@@ -13,6 +13,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import com.maxk.marvy.R
+import com.maxk.marvy.api.Complete
 import com.maxk.marvy.api.Loading
 import com.maxk.marvy.api.NetworkRequestStatusHandler
 import com.maxk.marvy.characters.MarvelCharactersListFragment
@@ -103,6 +104,13 @@ class SearchableActivity : AppCompatActivity() {
         }
 
         viewModel.searchRequestStatus.observe({ this.lifecycle }) { requestStatus ->
+            when (requestStatus) {
+                is Loading -> showEmptyView(false)
+                is Complete -> requestStatus.result.onSuccess { metadata ->
+                    showEmptyView(metadata.itemsFetched == 0)
+                }
+            }
+
             searchRequestStatusHandler.handle(requestStatus)
         }
 
@@ -116,5 +124,9 @@ class SearchableActivity : AppCompatActivity() {
             searchView?.clearFocus()
             false
         }
+    }
+
+    private fun showEmptyView(show: Boolean) {
+        charactersListFragment?.showEmptyView(show)
     }
 }

@@ -3,12 +3,14 @@ package com.maxk.marvy.characters.repository
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PositionalDataSource
-import com.maxk.marvy.api.marvel.MarvelService
-import com.maxk.marvy.di.ServiceLocator
-import com.maxk.marvy.model.marvel.MarvelCharacter
 import com.maxk.marvy.api.Complete
 import com.maxk.marvy.api.Loading
 import com.maxk.marvy.api.NetworkRequestStatus
+import com.maxk.marvy.api.marvel.MarvelService
+import com.maxk.marvy.di.ServiceLocator
+import com.maxk.marvy.model.marvel.DataWrapper
+import com.maxk.marvy.model.marvel.MarvelCharacter
+import com.maxk.marvy.model.marvel.PagedMetadata
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -21,7 +23,7 @@ class MarvelCharactersDataSource(private val characterName: String)
     private val dataSourceScope: CoroutineScope = CoroutineScope(job + Dispatchers.IO)
     private val marvelService: MarvelService = ServiceLocator.instance.getMarvelService()
 
-    val pagingRequestStatus = MutableLiveData<NetworkRequestStatus<Unit>>()
+    val pagingRequestStatus = MutableLiveData<NetworkRequestStatus<PagedMetadata>>()
 
     override fun loadRange(params: LoadRangeParams, callback: LoadRangeCallback<MarvelCharacter>) {
         notifyLoading(isInitialRequest = false)
@@ -34,14 +36,14 @@ class MarvelCharactersDataSource(private val characterName: String)
                     params.startPosition
                 )
                 callback.onResult(characters.data.results)
+                notifySuccess(isInitialRequest = false, characters = characters)
             } catch (e: Exception) {
                 Log.e(
                     MarvelCharactersDataSource::class.java.simpleName,
                     "Failed to fetch characters",
                     e
                 )
-            } finally {
-                notifyDoneLoading(isInitialRequest = false)
+                notifyError(isInitialRequest = false, error = e)
             }
         }
     }
@@ -59,14 +61,15 @@ class MarvelCharactersDataSource(private val characterName: String)
                     characters.data.results,
                     characters.data.offset ?: 0
                 )
+
+                notifySuccess(isInitialRequest = true, characters = characters)
             } catch (e: Exception) {
                 Log.e(
                     MarvelCharactersDataSource::class.java.simpleName,
                     "Failed to fetch characters (initial request)",
                     e
                 )
-            } finally {
-                notifyDoneLoading(isInitialRequest = true)
+                notifyError(isInitialRequest = true, error = e)
             }
         }
     }
@@ -75,10 +78,20 @@ class MarvelCharactersDataSource(private val characterName: String)
         pagingRequestStatus.postValue(Loading(isInitialRequest))
     }
 
-    private fun notifyDoneLoading(isInitialRequest: Boolean) {
+    private fun notifySuccess(isInitialRequest: Boolean,
+                              characters: DataWrapper<MarvelCharacter>) {
+
+        val result = Result.success(PagedMetadata(
+            itemsFetched = characters.data.results.size
+        ))
+
         pagingRequestStatus.postValue(
-            Complete(isInitialRequest, Result.success(Unit))
+            Complete(isInitialRequest, result)
         )
+    }
+
+    private fun notifyError(isInitialRequest: Boolean, error: Throwable) {
+        pagingRequestStatus.postValue(Complete(isInitialRequest, Result.failure(error)))
     }
 
     override fun invalidate() {

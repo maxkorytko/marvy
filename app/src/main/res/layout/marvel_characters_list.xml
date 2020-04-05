@@ -5,18 +5,36 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-         android:layout_width="match_parent"
+        android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/characters_list"
+        <FrameLayout
+            android:id="@+id/scene_content_container"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:gravity="center"
+            android:animateLayoutChanges="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:listitem="@layout/marvel_character_list_item" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/characters_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:listitem="@layout/marvel_character_list_item" />
+
+            <include
+                layout="@layout/empty_list_layout"
+                android:id="@+id/empty_view"
+                android:visibility="gone" />
+
+        </FrameLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
