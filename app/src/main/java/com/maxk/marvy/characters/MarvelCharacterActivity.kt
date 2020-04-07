@@ -7,7 +7,6 @@ import android.content.Intent
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
 import androidx.activity.viewModels
@@ -16,10 +15,10 @@ import androidx.core.app.ActivityCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.ViewPropertyAnimatorListenerAdapter
 import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
+import com.maxk.marvy.characters.viewmodels.MarvelCharacterViewModel
 import com.maxk.marvy.databinding.ActivityMarvelCharacterBinding
 import com.maxk.marvy.model.marvel.MarvelCharacter
 import com.maxk.marvy.view.resolveAttribute
-import com.maxk.marvy.characters.viewmodels.MarvelCharacterViewModel
 
 class MarvelCharacterActivity : AppCompatActivity() {
     companion object {
@@ -156,13 +155,6 @@ class MarvelCharacterActivity : AppCompatActivity() {
                     .start()
             }
         }
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.home -> finishAfterTransition()
-        }
-        return true
     }
 }
 
