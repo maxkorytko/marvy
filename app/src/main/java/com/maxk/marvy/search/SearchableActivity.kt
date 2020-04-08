@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
+import com.google.android.material.appbar.AppBarLayout
 import com.maxk.marvy.R
 import com.maxk.marvy.api.Complete
 import com.maxk.marvy.api.Loading
@@ -59,6 +60,7 @@ class SearchableActivity : AppCompatActivity() {
         setupActionBar()
         setupObservers()
         setupEventListeners()
+        updateCollapsingToolbarScrollFlags(scroll = false)
     }
 
     private fun setupActionBar() {
@@ -108,6 +110,7 @@ class SearchableActivity : AppCompatActivity() {
                 is Loading -> showEmptyView(false)
                 is Complete -> requestStatus.result.onSuccess { metadata ->
                     showEmptyView(metadata.itemsFetched == 0)
+                    updateCollapsingToolbarScrollFlags(scroll = metadata.itemsFetched > 0)
                 }
             }
 
@@ -128,5 +131,19 @@ class SearchableActivity : AppCompatActivity() {
 
     private fun showEmptyView(show: Boolean) {
         charactersListFragment?.showEmptyView(show)
+    }
+
+    private fun updateCollapsingToolbarScrollFlags(scroll: Boolean) {
+        val layoutParams = binding.collapsingToolbar.layoutParams as? AppBarLayout.LayoutParams
+        layoutParams?.let {
+            it.scrollFlags = if (scroll) {
+                AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL or
+                        AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS
+            } else {
+                AppBarLayout.LayoutParams.SCROLL_FLAG_NO_SCROLL
+            }
+
+            binding.collapsingToolbar.layoutParams = it
+        }
     }
 }

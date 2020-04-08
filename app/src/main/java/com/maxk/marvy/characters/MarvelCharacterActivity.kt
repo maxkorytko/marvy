@@ -7,6 +7,7 @@ import android.content.Intent
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
 import androidx.activity.viewModels
@@ -155,6 +156,13 @@ class MarvelCharacterActivity : AppCompatActivity() {
                     .start()
             }
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.home -> finishAfterTransition()
+        }
+        return true
     }
 }
 

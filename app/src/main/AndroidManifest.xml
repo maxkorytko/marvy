@@ -29,7 +29,6 @@
 
         <activity
             android:name=".characters.MarvelCharacterActivity"
-            android:parentActivityName="com.maxk.marvy.MainActivity"
             android:launchMode="singleTop">
         </activity>
 
