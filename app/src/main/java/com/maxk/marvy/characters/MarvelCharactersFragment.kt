@@ -30,7 +30,7 @@ class MarvelCharactersFragment(private val searchTerm: String) : Fragment() {
 
         binding = MarvelCharactersBinding.inflate(layoutInflater, container, false)
 
-        charactersListFragment = childFragmentManager?.findFragmentById(
+        charactersListFragment = childFragmentManager.findFragmentById(
             R.id.characters_list_fragment) as? MarvelCharactersListFragment
 
         pagingRequestStatusHandler = NetworkRequestStatusHandler(

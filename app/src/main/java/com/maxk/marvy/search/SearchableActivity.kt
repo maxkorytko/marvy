@@ -4,9 +4,6 @@ import android.app.SearchManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
@@ -19,7 +16,6 @@ import com.maxk.marvy.api.Loading
 import com.maxk.marvy.api.NetworkRequestStatusHandler
 import com.maxk.marvy.characters.MarvelCharactersListFragment
 import com.maxk.marvy.databinding.ActivitySearchBinding
-import com.maxk.marvy.databinding.SearchViewBinding
 import com.maxk.marvy.view.showKeyboard
 
 class SearchableActivity : AppCompatActivity() {
@@ -37,9 +33,7 @@ class SearchableActivity : AppCompatActivity() {
     private lateinit var searchRequestStatusHandler: NetworkRequestStatusHandler
 
     private var charactersListFragment: MarvelCharactersListFragment? = null
-
-    private var searchView: SearchView? = null
-
+    
     private val viewModel: SearchableViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,9 +52,10 @@ class SearchableActivity : AppCompatActivity() {
             )
 
         setupActionBar()
+        setupSearchView()
         setupObservers()
         setupEventListeners()
-        updateCollapsingToolbarScrollFlags(scroll = false)
+        allowToolbarToScroll(false)
     }
 
     private fun setupActionBar() {
@@ -69,34 +64,22 @@ class SearchableActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menu?.add("")?.apply {
-            searchView = createSearchView()
-            actionView = searchView
-            setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
-        }
+    private fun setupSearchView() {
+        val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
 
-        return true
-    }
+        binding.searchView.apply {
+            setSearchableInfo(searchManager.getSearchableInfo(componentName))
+            showKeyboard()
+            setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    return false
+                }
 
-    private fun createSearchView(): SearchView? {
-        return SearchViewBinding.inflate(LayoutInflater.from(this)).run {
-            val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
-
-            return (root as? SearchView)?.apply {
-                setSearchableInfo(searchManager.getSearchableInfo(componentName))
-                showKeyboard()
-                setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-                    override fun onQueryTextSubmit(query: String?): Boolean {
-                        return false
-                    }
-
-                    override fun onQueryTextChange(newText: String?): Boolean {
-                        viewModel.search(newText)
-                        return true
-                    }
-                })
-            }
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    viewModel.search(newText)
+                    return true
+                }
+            })
         }
     }
 
@@ -110,7 +93,7 @@ class SearchableActivity : AppCompatActivity() {
                 is Loading -> showEmptyView(false)
                 is Complete -> requestStatus.result.onSuccess { metadata ->
                     showEmptyView(metadata.itemsFetched == 0)
-                    updateCollapsingToolbarScrollFlags(scroll = metadata.itemsFetched > 0)
+                    allowToolbarToScroll( metadata.itemsFetched > 0)
                 }
             }
 
@@ -124,7 +107,7 @@ class SearchableActivity : AppCompatActivity() {
 
     private fun setupEventListeners() {
         charactersListFragment?.listView?.setOnTouchListener { _, _ -> Boolean
-            searchView?.clearFocus()
+            binding.searchView.clearFocus()
             false
         }
     }
@@ -133,7 +116,7 @@ class SearchableActivity : AppCompatActivity() {
         charactersListFragment?.showEmptyView(show)
     }
 
-    private fun updateCollapsingToolbarScrollFlags(scroll: Boolean) {
+    private fun allowToolbarToScroll(scroll: Boolean) {
         val layoutParams = binding.collapsingToolbar.layoutParams as? AppBarLayout.LayoutParams
         layoutParams?.let {
             it.scrollFlags = if (scroll) {
