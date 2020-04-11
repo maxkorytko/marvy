@@ -1,6 +1,7 @@
 package com.maxk.marvy.extensions
 
 import android.content.res.Resources
+import android.net.Uri
 import android.util.TypedValue
 import androidx.annotation.AttrRes
 
@@ -14,4 +15,8 @@ fun Resources.Theme.resolveAttribute(@AttrRes attr: Int): Int {
     val typedValue = TypedValue()
     resolveAttribute(attr, typedValue, true)
     return typedValue.data
+}
+
+fun String.urlEncoded(): String {
+    return Uri.encode(this)
 }

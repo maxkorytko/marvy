@@ -6,11 +6,11 @@ import androidx.lifecycle.liveData
 import com.maxk.marvy.api.Complete
 import com.maxk.marvy.api.Loading
 import com.maxk.marvy.api.NetworkRequestStatus
+import com.maxk.marvy.di.ServiceLocator
 import com.maxk.marvy.model.CharacterInfo
 import com.maxk.marvy.model.marvel.Image
 import com.maxk.marvy.model.marvel.MarvelCharacter
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 
 class MarvelCharacterViewModel(character: MarvelCharacter?): ViewModel() {
     class Factory(private val character: MarvelCharacter?): ViewModelProvider.Factory {
@@ -30,14 +30,24 @@ class MarvelCharacterViewModel(character: MarvelCharacter?): ViewModel() {
 
     var image: Image? = character?.thumbnail
 
+    /**
+     * Strips parentheses off the character name.
+     */
+    private val strippedCharacterName: String? = character?.name?.let {
+        val openParensIndex = it.indexOf('(')
+
+        return@let if (openParensIndex != -1) {
+            it.removeRange(openParensIndex, it.length).trimEnd()
+        } else {
+            it
+        }
+    }
+
     val additionalCharacterInfo = liveData<NetworkRequestStatus<List<CharacterInfo>>>(Dispatchers.IO) {
+        val repo = ServiceLocator.instance.getCharacterInfoRepository()
+
         emit(Loading())
-        delay(1000)
-        val info = listOf(
-            CharacterInfo("One"),
-            CharacterInfo("Two"),
-            CharacterInfo("Three")
-        )
-        emit(Complete(result = Result.success(info)))
+        emit(Complete(result = repo.retrieveCharacterInfo(strippedCharacterName)))
     }
 }
+

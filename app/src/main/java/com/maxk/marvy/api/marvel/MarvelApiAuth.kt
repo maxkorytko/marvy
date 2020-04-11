@@ -6,8 +6,8 @@ import java.security.MessageDigest
 import java.util.*
 
 object MarvelApiAuth {
-    val publicKey = "f1063bf3f9f2d26309c1591290530dd2"
-    val privateKey = "6c740fa4f583f9332713bd755f1af15c5ae4d0bd"
+    private const val publicKey = "f1063bf3f9f2d26309c1591290530dd2"
+    private const val privateKey = "6c740fa4f583f9332713bd755f1af15c5ae4d0bd"
 
     val interceptor = Interceptor { chain ->
         val timestamp = Date().time

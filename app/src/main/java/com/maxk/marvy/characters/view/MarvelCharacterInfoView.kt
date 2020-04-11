@@ -15,9 +15,22 @@ class MarvelCharacterInfoView(context: Context, private val characterInfo: Chara
 
     init {
         setupBioSection()
+        setupAppearanceSection()
     }
 
-    private fun setupBioSection() = with(characterInfo) {
-        binding.bioSection.addTextRow(R.string.marvel_character_info_name, name)
+    private fun setupBioSection() = with(binding.bioSection) {
+        with(characterInfo.biography) {
+            addTextRow(R.string.marvel_character_info_name, fullName)
+            addTextRow(R.string.marvel_character_info_alignment, alignment)
+        }
+    }
+
+    private fun setupAppearanceSection() = with(binding.appearanceSection) {
+        with(characterInfo.appearance) {
+            addTextRow(R.string.marvel_character_info_gender, gender)
+            addTextRow(R.string.marvel_character_info_race, race)
+            addTextRow(R.string.marvel_character_info_height, height.joinToString(", "))
+            addTextRow(R.string.marvel_character_info_weight, weight.joinToString(", "))
+        }
     }
 }
