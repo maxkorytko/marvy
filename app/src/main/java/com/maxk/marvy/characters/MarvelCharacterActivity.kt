@@ -19,7 +19,7 @@ import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
 import com.maxk.marvy.characters.viewmodels.MarvelCharacterViewModel
 import com.maxk.marvy.databinding.ActivityMarvelCharacterBinding
 import com.maxk.marvy.model.marvel.MarvelCharacter
-import com.maxk.marvy.view.resolveAttribute
+import com.maxk.marvy.extensions.resolveAttribute
 
 class MarvelCharacterActivity : AppCompatActivity() {
     companion object {
@@ -57,19 +57,15 @@ class MarvelCharacterActivity : AppCompatActivity() {
         binding.imageView.image = viewModel.image
         binding.descriptionSection.content<TextView> { text = viewModel.description }
 
-        ViewCompat.setTransitionName(binding.characterName,
-            VIEW_NAME_CHARACTER_NAME
-        )
-
+        ViewCompat.setTransitionName(binding.characterName, VIEW_NAME_CHARACTER_NAME)
         setupActionBar()
 
         binding.appBar.addOnOffsetChangedListener(
             OnOffsetChangedListener { appBarLayout, verticalOffset ->
-                val appBarVerticalOffset =
-                    AppBarVerticalOffset(
-                        verticalOffset,
-                        maxVerticalOffset = appBarLayout.height - binding.toolbar.height
-                    )
+                val appBarVerticalOffset = AppBarVerticalOffset(
+                    verticalOffset,
+                    maxVerticalOffset = appBarLayout.height - binding.toolbar.height
+                )
 
                 fadeInOutImage(appBarVerticalOffset)
                 updateToolbar(appBarVerticalOffset)

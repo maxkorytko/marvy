@@ -8,6 +8,7 @@ import android.view.animation.AnimationUtils
 import android.widget.FrameLayout
 import com.maxk.marvy.R
 import com.maxk.marvy.databinding.TitleViewBinding
+import com.maxk.marvy.extensions.resolveAttribute
 import java.util.*
 
 class TitleView @JvmOverloads constructor(

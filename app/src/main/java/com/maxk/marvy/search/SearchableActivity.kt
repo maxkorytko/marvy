@@ -16,7 +16,7 @@ import com.maxk.marvy.api.Loading
 import com.maxk.marvy.api.NetworkRequestStatusHandler
 import com.maxk.marvy.characters.MarvelCharactersListFragment
 import com.maxk.marvy.databinding.ActivitySearchBinding
-import com.maxk.marvy.view.showKeyboard
+import com.maxk.marvy.extensions.showKeyboard
 
 class SearchableActivity : AppCompatActivity() {
     companion object {
@@ -33,7 +33,7 @@ class SearchableActivity : AppCompatActivity() {
     private lateinit var searchRequestStatusHandler: NetworkRequestStatusHandler
 
     private var charactersListFragment: MarvelCharactersListFragment? = null
-    
+
     private val viewModel: SearchableViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {

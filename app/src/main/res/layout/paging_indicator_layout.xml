@@ -7,12 +7,10 @@
         android:padding="?containerPadding"
         android:background="?colorSurface">
 
-        <ProgressBar
-            android:id="@+id/progress_bar"
-            android:indeterminateTint="?colorPrimaryDark"
-            android:layout_width="match_parent"
+        <com.maxk.marvy.view.MarvyProgressView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center" />
 
     </FrameLayout>
 
