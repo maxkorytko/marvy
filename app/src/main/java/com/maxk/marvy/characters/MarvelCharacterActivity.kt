@@ -9,17 +9,23 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.ViewPropertyAnimatorListenerAdapter
+import androidx.core.view.isVisible
 import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
+import com.maxk.marvy.api.Complete
+import com.maxk.marvy.api.Loading
+import com.maxk.marvy.characters.view.MarvelCharacterInfoView
 import com.maxk.marvy.characters.viewmodels.MarvelCharacterViewModel
 import com.maxk.marvy.databinding.ActivityMarvelCharacterBinding
 import com.maxk.marvy.model.marvel.MarvelCharacter
 import com.maxk.marvy.extensions.resolveAttribute
+import com.maxk.marvy.model.CharacterInfo
 
 class MarvelCharacterActivity : AppCompatActivity() {
     companion object {
@@ -59,6 +65,7 @@ class MarvelCharacterActivity : AppCompatActivity() {
 
         ViewCompat.setTransitionName(binding.characterName, VIEW_NAME_CHARACTER_NAME)
         setupActionBar()
+        setupObservers()
 
         binding.appBar.addOnOffsetChangedListener(
             OnOffsetChangedListener { appBarLayout, verticalOffset ->
@@ -80,6 +87,31 @@ class MarvelCharacterActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = null
         binding.collapsingToolbar.title = null
+    }
+
+    private fun setupObservers() {
+        viewModel.additionalCharacterInfo.observe({ this.lifecycle }) { requestStatus ->
+            binding.progressBar.isVisible = requestStatus is Loading
+
+            if (requestStatus is Complete) {
+                handleAdditionalCharacterInfoResult(requestStatus.result)
+            }
+        }
+    }
+
+    private fun handleAdditionalCharacterInfoResult(result: Result<List<CharacterInfo>>) {
+        result.onSuccess { displayAdditionalCharacterInfo(it) }
+    }
+
+    private fun displayAdditionalCharacterInfo(characterInfo: List<CharacterInfo>) {
+        characterInfo
+            .map {MarvelCharacterInfoView(this, it) }
+            .onEach {
+                binding.characterInfoContainer.addView(it, LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                ))
+            }
     }
 
     private fun adjustScrollViewPadding(animated: Boolean = true) = with(binding.nestedScrollView) {

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <merge tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
+
+        <com.maxk.marvy.characters.view.MarvelCharacterInfoSectionView
+            android:id="@+id/bioSection"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:title="@string/marvel_character_bio_section_title"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/appearanceSection"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <com.maxk.marvy.characters.view.MarvelCharacterInfoSectionView
+            android:id="@+id/appearanceSection"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:title="@string/marvel_character_appearance_section_title"
+            app:layout_constraintTop_toBottomOf="@id/bioSection"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </merge>
+
+</layout>

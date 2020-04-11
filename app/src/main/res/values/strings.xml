@@ -10,5 +10,7 @@
     <string name="search_action_view_hint">Tap to search characters</string>
     <string name="search_hint">Search Characters</string>
     <string name="empty_list">List is empty</string>
-
+    <string name="marvel_character_bio_section_title">Bio</string>
+    <string name="marvel_character_appearance_section_title">Appearance</string>
+    <string name="marvel_character_info_name">Name</string>
 </resources>

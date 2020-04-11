@@ -2,9 +2,12 @@ package com.maxk.marvy.extensions
 
 import android.content.Context
 import android.graphics.Rect
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+
+val View.layoutInflater: LayoutInflater get() = LayoutInflater.from(context)
 
 val View.rect: Rect get() {
     val rect = Rect()

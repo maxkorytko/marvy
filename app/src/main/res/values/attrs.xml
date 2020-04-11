@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="SectionView">
+    <!-- This is a pseudo view that holds attributes shared across multiple views. -->
+    <declare-styleable name="MarvyView">
         <attr name="title" format="string" localization="suggested" />
+    </declare-styleable>
+
+    <declare-styleable name="SectionView" parent="MarvyView">
+        <attr name="title" />
         <attr name="color" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="MarvelCharacterInfoSectionView" parent="MarvyView">
+        <attr name="title" />
     </declare-styleable>
 </resources>
