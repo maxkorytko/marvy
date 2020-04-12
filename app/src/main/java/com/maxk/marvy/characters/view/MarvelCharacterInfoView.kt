@@ -1,6 +1,7 @@
 package com.maxk.marvy.characters.view
 
 import android.content.Context
+import android.widget.LinearLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.maxk.marvy.R
 import com.maxk.marvy.databinding.MarvelCharacterInfoViewBinding
@@ -8,12 +9,16 @@ import com.maxk.marvy.extensions.layoutInflater
 import com.maxk.marvy.model.CharacterInfo
 
 class MarvelCharacterInfoView(context: Context, private val characterInfo: CharacterInfo)
-    : ConstraintLayout(context) {
+    : LinearLayout(context) {
 
     private val binding =
         MarvelCharacterInfoViewBinding.inflate(layoutInflater, this, true)
 
     init {
+        orientation = VERTICAL
+        dividerDrawable = resources.getDrawable(R.drawable.spacer, context.theme)
+        showDividers = SHOW_DIVIDER_MIDDLE
+
         setupBioSection()
         setupAppearanceSection()
     }

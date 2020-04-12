@@ -20,6 +20,7 @@ import androidx.core.view.isVisible
 import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
 import com.maxk.marvy.api.Complete
 import com.maxk.marvy.api.Loading
+import com.maxk.marvy.characters.view.MarvelCharacterExpandableInfoView
 import com.maxk.marvy.characters.view.MarvelCharacterInfoView
 import com.maxk.marvy.characters.viewmodels.MarvelCharacterViewModel
 import com.maxk.marvy.databinding.ActivityMarvelCharacterBinding
@@ -104,14 +105,22 @@ class MarvelCharacterActivity : AppCompatActivity() {
     }
 
     private fun displayAdditionalCharacterInfo(characterInfo: List<CharacterInfo>) {
-        characterInfo
-            .map {MarvelCharacterInfoView(this, it) }
-            .onEach {
-                binding.characterInfoContainer.addView(it, LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
-                ))
-            }
+        val characterInfoViews = mutableListOf<View>()
+
+        if (characterInfo.size == 1) {
+            characterInfoViews.add(MarvelCharacterInfoView(this, characterInfo[0]))
+        } else {
+            characterInfoViews.addAll(
+                characterInfo.map { MarvelCharacterExpandableInfoView(this, it) }
+            )
+        }
+
+        characterInfoViews.onEach {
+            binding.characterInfoContainer.addView(it, LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            ))
+        }
     }
 
     private fun adjustScrollViewPadding(animated: Boolean = true) = with(binding.nestedScrollView) {
