@@ -46,7 +46,7 @@ class SectionView @JvmOverloads constructor(
         context.theme.obtainStyledAttributes(
             attrs,
             R.styleable.SectionView,
-            0,
+            defStyleAttr,
             0
         ).apply {
             try {

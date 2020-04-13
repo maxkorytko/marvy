@@ -13,4 +13,8 @@
     <declare-styleable name="MarvelCharacterInfoSectionView" parent="MarvyView">
         <attr name="title" />
     </declare-styleable>
+
+    <declare-styleable name="UrlImageView">
+        <attr name="cornerRadius" format="dimension" />
+    </declare-styleable>
 </resources>

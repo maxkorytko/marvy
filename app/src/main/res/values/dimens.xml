@@ -5,4 +5,5 @@
     <dimen name="spaceExtraLarge">24dp</dimen>
     <dimen name="character_toolbar_height">100dp</dimen>
     <dimen name="cardElevation">4dp</dimen>
+    <dimen name="imageCornerRadius">8dp</dimen>
 </resources>

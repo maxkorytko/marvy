@@ -4,15 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+        <variable
+            name="model"
+            type="com.maxk.marvy.model.CharacterInfo" />
+    </data>
+
     <merge
         tools:background="?colorPrimary"
         tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
 
-        <ImageView
+        <com.maxk.marvy.view.UrlImageView
             android:id="@+id/image"
             android:layout_width="100dp"
             android:layout_height="0dp"
             android:scaleType="fitCenter"
+            app:imageUrl="@{model.image.url}"
+            app:cornerRadius="@dimen/imageCornerRadius"
             app:layout_constraintDimensionRatio="3:4"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/name"
@@ -28,6 +36,7 @@
             android:ellipsize="end"
             android:maxLines="2"
             android:textAppearance="?textAppearanceBody1"
+            android:text="@{model.biography.fullName}"
             app:layout_constrainedWidth="true"
             app:layout_constraintBottom_toBottomOf="@+id/image"
             app:layout_constraintEnd_toStartOf="@+id/expandImage"
@@ -37,10 +46,12 @@
 
         <ImageView
             android:id="@+id/expandImage"
-            android:layout_width="24dp"
+            android:layout_width="48dp"
             android:layout_height="0dp"
             android:src="@drawable/ic_expand"
             android:tint="?colorPrimaryDark"
+            android:layout_marginEnd="@dimen/spaceLarge"
+            android:foreground="?android:attr/selectableItemBackground"
             app:layout_constraintBottom_toBottomOf="@+id/image"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"

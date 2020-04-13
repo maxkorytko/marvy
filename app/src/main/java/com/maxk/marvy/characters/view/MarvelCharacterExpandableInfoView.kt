@@ -17,20 +17,16 @@ class MarvelCharacterExpandableInfoView(context: Context, private val characterI
 
     init {
         with(binding) {
-            name.text = characterInfo.biography.fullName
+            model = characterInfo
 
             infoContainer.addView(infoView, LayoutParams(
                 LayoutParams.MATCH_PARENT,
                 LayoutParams.MATCH_PARENT
             ))
+
+            expandImage.setOnContextClickListener {
+                true
+            }
         }
-
-        fetchCharacterImage()
-    }
-
-    private fun fetchCharacterImage() {
-        Glide.with(context)
-            .load(characterInfo.image.url)
-            .into(binding.image)
     }
 }
