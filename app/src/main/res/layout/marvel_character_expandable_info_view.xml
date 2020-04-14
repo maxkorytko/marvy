@@ -51,7 +51,7 @@
             android:src="@drawable/ic_expand"
             android:tint="?colorPrimaryDark"
             android:layout_marginEnd="@dimen/spaceLarge"
-            android:foreground="?android:attr/selectableItemBackground"
+            android:background="@drawable/selectable_oval_background"
             app:layout_constraintBottom_toBottomOf="@+id/image"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
