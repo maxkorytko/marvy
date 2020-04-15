@@ -1,17 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="TextAppearance.AppTheme.Headline4" parent="TextAppearance.MaterialComponents.Headline4">
-        <item name="android:textColor">?android:attr/textColorPrimary</item>
-    </style>
 
-    <style name="TextAppearance.AppTheme.Headline5" parent="TextAppearance.MaterialComponents.Headline5">
-        <item name="android:textColor">?android:attr/textColorPrimary</item>
-    </style>
-
-    <style name="TextAppearance.AppTheme.Body1" parent="TextAppearance.MaterialComponents.Body1">
-        <item name="android:textColor">?android:attr/textColorPrimary</item>
-    </style>
 
     <style name="TabsStyle">
         <item name="tabMode">scrollable</item>

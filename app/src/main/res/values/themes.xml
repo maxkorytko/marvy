@@ -3,26 +3,19 @@
 
     <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:windowContentTransitions">true</item>
-
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorOnPrimary">@color/colorOnPrimary</item>
         <item name="colorOnPrimary25">@color/colorOnPrimary25</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">?colorPrimaryDark</item>
         <item name="android:textColorPrimary">@color/textColorPrimary</item>
+        <item name="android:textColorSecondary">@color/textColorPrimary</item>
         <item name="colorSurface">@color/colorSurface</item>
         <item name="colorOnSurface">@color/colorOnSurface</item>
         <item name="colorSemitransparentSurface">@color/colorSemitransparentSurface</item>
         <item name="colorControlNormal">?colorOnPrimary</item>
         <item name="android:colorControlHighlight">?colorPrimaryDark</item>
         <item name="containerPadding">@dimen/space</item>
-
-        <!-- Text Appearance -->
-
-        <item name="textAppearanceHeadline4">@style/TextAppearance.AppTheme.Headline4</item>
-        <item name="textAppearanceHeadline5">@style/TextAppearance.AppTheme.Headline5</item>
-        <item name="textAppearanceBody1">@style/TextAppearance.AppTheme.Body1</item>
-
         <item name="animationDurationShort">@integer/animationDurationShort</item>
     </style>
 

@@ -14,7 +14,7 @@ val Int.px: Int
 fun Resources.Theme.resolveAttribute(@AttrRes attr: Int): Int {
     val typedValue = TypedValue()
     resolveAttribute(attr, typedValue, true)
-    return typedValue.data
+    return typedValue.resourceId
 }
 
 fun String.urlEncoded(): String {
