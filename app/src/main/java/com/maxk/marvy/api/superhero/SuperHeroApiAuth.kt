@@ -1,9 +1,10 @@
 package com.maxk.marvy.api.superhero
 
+import com.maxk.marvy.BuildConfig
 import okhttp3.Interceptor
 
 object SuperHeroApiAuth {
-    private const val apiKey = "2457407421239862"
+    private const val apiKey = BuildConfig.SUPER_HERO_API_KEY
 
     val interceptor = Interceptor { chain ->
         val request = chain.request()

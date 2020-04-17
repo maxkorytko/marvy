@@ -6,6 +6,15 @@ apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'kotlin-kapt'
 
+def loadAppConfig() {
+    def propertiesFile = project.rootProject.file("marvy.properties")
+    def properties = new Properties()
+    properties.load(propertiesFile.newDataInputStream())
+    properties.each { this.project.ext.set(it.key, it.value) }
+}
+
+loadAppConfig()
+
 android {
     compileSdkVersion 29
     defaultConfig {
@@ -15,6 +24,10 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField "String", "MARVEL_PUBLIC_KEY", "\"" + project.ext["MARVEL_PUBLIC_KEY"] + "\""
+        buildConfigField "String", "MARVEL_PRIVATE_KEY", "\"" + project.ext["MARVEL_PRIVATE_KEY"] + "\""
+        buildConfigField "String", "SUPER_HERO_API_KEY", "\"" + project.ext["SUPER_HERO_API_KEY"] + "\""
     }
     buildTypes {
         release {

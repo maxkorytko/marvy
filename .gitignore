@@ -1,5 +1,6 @@
 ﻿.env
 captures
+marvy.properties
 
 .gradle
 .DS_Store
