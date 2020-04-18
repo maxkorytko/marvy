@@ -24,7 +24,7 @@ class GridRecyclerView @JvmOverloads constructor(context: Context,
                 params?.layoutAnimationParameters as? GridLayoutAnimationController.AnimationParameters
 
             if (animationParams == null) {
-                // If there are no animation parameters, create new once and attach them to
+                // If there are no animation parameters, create new ones and attach them to
                 // the LayoutParams.
                 animationParams = GridLayoutAnimationController.AnimationParameters()
                 params?.layoutAnimationParameters = animationParams
@@ -38,7 +38,6 @@ class GridRecyclerView @JvmOverloads constructor(context: Context,
             animationParams.count = count
             animationParams.index = index
 
-            // Calculate the number of columns and rows in the grid
             // Calculate the number of columns and rows in the grid
             val columns = (layoutManager as GridLayoutManager).spanCount
             animationParams.columnsCount = columns

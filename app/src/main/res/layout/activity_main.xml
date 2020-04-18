@@ -17,7 +17,8 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?actionBarSize"
-                android:contentInsetStart="0dp">
+                android:contentInsetStart="0dp"
+                style="@style/ToolbarStyle">
 
                 <com.maxk.marvy.view.TitleView
                     android:id="@+id/titleView"

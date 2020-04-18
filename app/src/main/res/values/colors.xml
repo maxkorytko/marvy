@@ -5,6 +5,7 @@
     <color name="textColorPrimary">#ffffff</color>
     <color name="colorOnPrimary">#ffffff</color>
     <color name="colorOnPrimary25">#40FFFFFF</color>
+    <color name="colorOnPrimary50">#80FFFFFF</color>
     <color name="colorSurface">#2c2c2c</color>
     <color name="colorSemitransparentSurface">#CC2c2c2c</color>
     <color name="colorOnSurface">#ffffff</color>

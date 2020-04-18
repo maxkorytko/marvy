@@ -1,6 +1,7 @@
 package com.maxk.marvy.api
 
 import android.view.View
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 
 class NetworkRequestStatusHandler(private val contentView: View?,
@@ -28,7 +29,7 @@ class NetworkRequestStatusHandler(private val contentView: View?,
                 errorView?.isVisible = false
             },
             onFailure = {
-                contentView?.isVisible = false
+                contentView?.isInvisible = false
                 errorView?.isVisible = true
             }
         )
