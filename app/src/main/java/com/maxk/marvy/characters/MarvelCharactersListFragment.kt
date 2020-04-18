@@ -79,7 +79,7 @@ class MarvelCharactersListFragment : Fragment() {
         }
     }
 
-    fun submitList(characters: PagedList<MarvelCharacter>) = with(binding.charactersList) {
+    fun submitList(characters: PagedList<MarvelCharacter>?) = with(binding.charactersList) {
         this@MarvelCharactersListFragment.adapter.submitList(characters)
         post { scheduleLayoutAnimation() }
     }

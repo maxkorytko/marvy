@@ -86,6 +86,7 @@ class SearchableActivity : AppCompatActivity() {
     private fun setupObservers() {
         viewModel.characters.observe({ lifecycle }) { characters ->
             charactersListFragment?.submitList(characters)
+            showEmptyView(characters == null)
         }
 
         viewModel.searchRequestStatus.observe({ this.lifecycle }) { requestStatus ->

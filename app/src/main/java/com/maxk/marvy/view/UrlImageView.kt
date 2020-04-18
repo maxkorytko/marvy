@@ -3,6 +3,7 @@ package com.maxk.marvy.view
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.graphics.drawable.RoundedBitmapDrawable
@@ -11,6 +12,7 @@ import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.BitmapImageViewTarget
 import com.maxk.marvy.R
+import com.maxk.marvy.extensions.resolveAttribute
 
 class UrlImageView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
@@ -22,6 +24,8 @@ class UrlImageView @JvmOverloads constructor(
 
     var thumbnailUrl: String? = null
 
+    var placeholder: Drawable? = null
+
     init {
         context.theme.obtainStyledAttributes(
             attrs,
@@ -31,6 +35,7 @@ class UrlImageView @JvmOverloads constructor(
         ).apply {
             try {
                 cornerRadius = getDimension(R.styleable.UrlImageView_cornerRadius, 0f)
+                placeholder = getDrawable(R.styleable.UrlImageView_placeholder)
             } finally {
                 recycle()
             }
@@ -44,6 +49,7 @@ class UrlImageView @JvmOverloads constructor(
             .asBitmap()
             .load(imageUrl)
             .thumbnail(Glide.with(context).asBitmap().load(thumbnailUrl))
+            .placeholder(placeholder)
             .error(ColorDrawable(context.getColor(R.color.colorSurface)))
             .into(object : BitmapImageViewTarget(this) {
                 override fun setResource(resource: Bitmap?) {

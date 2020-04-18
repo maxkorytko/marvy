@@ -16,5 +16,6 @@
 
     <declare-styleable name="UrlImageView">
         <attr name="cornerRadius" format="dimension" />
+        <attr name="placeholder" format="reference" />
     </declare-styleable>
 </resources>

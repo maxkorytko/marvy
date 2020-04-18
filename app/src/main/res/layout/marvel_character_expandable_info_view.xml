@@ -34,6 +34,7 @@
                     android:scaleType="fitCenter"
                     app:imageUrl="@{model.image.url}"
                     app:cornerRadius="@dimen/imageCornerRadius"
+                    app:placeholder="?colorSurface"
                     app:layout_constraintDimensionRatio="3:4"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/name"

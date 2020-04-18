@@ -1,6 +1,7 @@
 package com.maxk.marvy.view
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.Gravity
 import android.widget.FrameLayout
@@ -17,6 +18,12 @@ class MarvelImageView @JvmOverloads constructor(
         set(value) {
             field = value
             setImage(width, height)
+        }
+
+    var placeholder: Drawable? = null
+        set(value) {
+            field = value
+            imageView.placeholder = value
         }
 
     init {

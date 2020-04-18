@@ -17,7 +17,7 @@ class SearchableViewModel : ViewModel() {
 
     private val pagedData: MutableLiveData<PagedDataWrapper<MarvelCharacter>> = MutableLiveData()
 
-    val characters: LiveData<PagedList<MarvelCharacter>> = pagedData.switchMap { it.pagedList }
+    val characters = MediatorLiveData<PagedList<MarvelCharacter>?>()
 
     val searchRequestStatus: LiveData<NetworkRequestStatus<PagedMetadata>> = pagedData
         .switchMap { it.pagingRequestStatus }
@@ -26,6 +26,10 @@ class SearchableViewModel : ViewModel() {
     val pagingRequestStatus: LiveData<NetworkRequestStatus<PagedMetadata>> = pagedData
         .switchMap { it.pagingRequestStatus }
         .filter { it.isInitialRequest == false }
+
+    init {
+        characters.addSource(pagedData.switchMap { it.pagedList }) { characters.postValue(it) }
+    }
 
     fun search(query: String?) {
         debounce { performSearch(query) }
@@ -40,7 +44,10 @@ class SearchableViewModel : ViewModel() {
     }
 
     private fun performSearch(query: String?) {
-        if (query == null) return
+        if (query == null || query.isEmpty()) {
+            characters.postValue(null)
+            return
+        }
 
         val repository = ServiceLocator.instance.getMarvelCharactersRepository()
         pagedData.postValue(repository.searchCharacters(query))

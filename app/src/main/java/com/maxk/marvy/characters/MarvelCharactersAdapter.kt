@@ -1,8 +1,10 @@
 package com.maxk.marvy.characters
 
+import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.paging.PagedList
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -10,6 +12,7 @@ import com.maxk.marvy.R
 import com.maxk.marvy.adapter.PagingIndicatorViewHolder
 import com.maxk.marvy.databinding.MarvelCharacterListItemBinding
 import com.maxk.marvy.model.marvel.MarvelCharacter
+import kotlin.coroutines.coroutineContext
 
 class MarvelCharactersAdapter(private val characterClickListener: CharacterClickListener)
     : PagedListAdapter<MarvelCharacter, RecyclerView.ViewHolder>(DiffCallback()) {
@@ -28,9 +31,7 @@ class MarvelCharactersAdapter(private val characterClickListener: CharacterClick
                     parent,
                     false
                 )
-                return ViewHolder(
-                    binding
-                )
+                return ViewHolder(binding)
             }
         }
 
@@ -39,6 +40,7 @@ class MarvelCharactersAdapter(private val characterClickListener: CharacterClick
 
             binding.character = character
             binding.imageView.image = character.thumbnail
+            binding.imageView.placeholder = ColorDrawable(binding.root.context.getColor(R.color.colorSurface))
             binding.characterClickListener = characterClickListener
 
             with(binding.imageView) {
@@ -62,8 +64,26 @@ class MarvelCharactersAdapter(private val characterClickListener: CharacterClick
             }
         }
 
+    private var displaysEmptyList: Boolean = false
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
+
+    override fun submitList(pagedList: PagedList<MarvelCharacter>?) {
+        if (pagedList == null) {
+            displaysEmptyList = true
+            return
+        }
+
+        displaysEmptyList = false
+        super.submitList(pagedList)
+    }
+
     override fun getItemCount(): Int {
-        return super.getItemCount() + if (displaysPagingIndicator) 1 else 0
+        return if (displaysEmptyList) 0 else {
+            super.getItemCount() + if (displaysPagingIndicator) 1 else 0
+        }
     }
 
     override fun getItemViewType(position: Int): Int {
