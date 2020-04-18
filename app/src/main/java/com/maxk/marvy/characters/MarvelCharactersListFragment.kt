@@ -10,9 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.transition.Fade
-import androidx.transition.Scene
-import androidx.transition.TransitionManager
 import com.maxk.marvy.R
 import com.maxk.marvy.databinding.MarvelCharactersListBinding
 import com.maxk.marvy.model.marvel.MarvelCharacter
@@ -82,8 +79,9 @@ class MarvelCharactersListFragment : Fragment() {
         }
     }
 
-    fun submitList(characters: PagedList<MarvelCharacter>) {
-        adapter.submitList(characters)
+    fun submitList(characters: PagedList<MarvelCharacter>) = with(binding.charactersList) {
+        this@MarvelCharactersListFragment.adapter.submitList(characters)
+        post { scheduleLayoutAnimation() }
     }
 
     fun showEmptyView(show: Boolean) {
