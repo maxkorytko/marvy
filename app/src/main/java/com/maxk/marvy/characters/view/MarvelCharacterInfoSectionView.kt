@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.Gravity
 import android.view.View
+import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -20,6 +21,12 @@ class MarvelCharacterInfoSectionView @JvmOverloads constructor(
     private val binding =
         MarvelCharacterInfoSectionViewBinding.inflate(layoutInflater, this, true)
 
+    var title: String? = null
+        set(value) {
+            field = value
+            binding.sectionView.title = value
+        }
+
     init {
         context.theme.obtainStyledAttributes(
             attrs,
@@ -28,7 +35,7 @@ class MarvelCharacterInfoSectionView @JvmOverloads constructor(
             0
         ).apply {
             try {
-                binding.sectionView.title = getString(R.styleable.MarvelCharacterInfoSectionView_title)
+                title = getString(R.styleable.MarvelCharacterInfoSectionView_title)
             } finally {
                 recycle()
             }
@@ -36,22 +43,29 @@ class MarvelCharacterInfoSectionView @JvmOverloads constructor(
     }
 
     fun addTextRow(@StringRes title: Int, text: String) {
-        addRow(TextRowView(context).also {
-            it.title = resources.getString(title)
-            it.text = text
-        })
+        addTextRow(resources.getString(title), text)
     }
 
-    private fun addRow(row: View) {
+    private fun addTextRow(title: String, text: String) {
+        addRow(
+            TextRowView(context).also {
+                it.title = title
+                it.text = text
+            },
+            LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
+        )
+    }
+
+    fun addRow(row: View, layoutParams: ViewGroup.LayoutParams) {
         binding.sectionView.content<LinearLayout> {
-            addView(row, LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT))
+            addView(row, layoutParams)
         }
     }
 }
 
 // region TextRowView Class
 
-private class TextRowView(context: Context) : LinearLayout(context) {
+class TextRowView(context: Context) : LinearLayout(context) {
     private val titleTextView = TextView(context).apply {
         gravity = Gravity.START
         setTextAppearance(context.theme.resolveAttribute(R.attr.textAppearanceBody1))
@@ -84,6 +98,14 @@ private class TextRowView(context: Context) : LinearLayout(context) {
             LayoutParams.WRAP_CONTENT,
             2f
         ))
+    }
+
+    fun measureTextWidth(text: CharSequence): Int {
+        textView.text = text
+        textView.measure(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
+        val measuredTextWidth = textView.measuredWidth
+        textView.text = this.text
+        return measuredTextWidth
     }
 }
 

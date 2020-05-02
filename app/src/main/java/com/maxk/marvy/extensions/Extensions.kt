@@ -8,10 +8,10 @@ import android.util.TypedValue
 import android.view.animation.LinearInterpolator
 import androidx.annotation.AttrRes
 
+/**
+ * Returns a number of pixels corresponding to the DPs expressed as this integer.
+ */
 val Int.dp: Int
-    get() = (this / Resources.getSystem().displayMetrics.density).toInt()
-
-val Int.px: Int
     get() = (this * Resources.getSystem().displayMetrics.density).toInt()
 
 fun Resources.Theme.resolveAttribute(@AttrRes attr: Int): Int {

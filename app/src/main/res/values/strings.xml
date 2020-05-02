@@ -18,4 +18,5 @@
     <string name="marvel_character_info_race">Race</string>
     <string name="marvel_character_info_height">Height</string>
     <string name="marvel_character_info_weight">Weight</string>
+    <string name="marvel_character_power_stats_section_title">Power Stats</string>
 </resources>
