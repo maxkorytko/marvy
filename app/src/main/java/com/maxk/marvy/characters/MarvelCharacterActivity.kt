@@ -5,10 +5,13 @@ import android.animation.ValueAnimator
 import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.ScaleDrawable
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
+import android.view.animation.BounceInterpolator
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.viewModels
@@ -17,6 +20,10 @@ import androidx.core.app.ActivityCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.ViewPropertyAnimatorListenerAdapter
 import androidx.core.view.isVisible
+import androidx.transition.Fade
+import androidx.transition.Slide
+import androidx.transition.TransitionManager
+import androidx.transition.TransitionSet
 import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
 import com.maxk.marvy.api.Complete
 import com.maxk.marvy.api.Loading
@@ -24,14 +31,13 @@ import com.maxk.marvy.characters.view.MarvelCharacterExpandableInfoView
 import com.maxk.marvy.characters.view.MarvelCharacterInfoView
 import com.maxk.marvy.characters.viewmodels.MarvelCharacterViewModel
 import com.maxk.marvy.databinding.ActivityMarvelCharacterBinding
+import com.maxk.marvy.extensions.overrideExitTransition
 import com.maxk.marvy.model.marvel.MarvelCharacter
 import com.maxk.marvy.extensions.resolveAttribute
 import com.maxk.marvy.model.CharacterInfo
 
 class MarvelCharacterActivity : AppCompatActivity() {
     companion object {
-        const val VIEW_NAME_CHARACTER_NAME: String = "marvel_character:name"
-
         private const val CHARACTER_EXTRA = "marvel_character_extra"
 
         fun start(context: Context?, character: MarvelCharacter, options: Bundle? = null) {
@@ -64,7 +70,6 @@ class MarvelCharacterActivity : AppCompatActivity() {
         binding.imageView.image = viewModel.image
         binding.descriptionSection.content<TextView> { text = viewModel.description }
 
-        ViewCompat.setTransitionName(binding.characterName, VIEW_NAME_CHARACTER_NAME)
         setupActionBar()
         setupObservers()
 
@@ -115,11 +120,18 @@ class MarvelCharacterActivity : AppCompatActivity() {
             )
         }
 
-        characterInfoViews.onEach {
-            binding.characterInfoContainer.addView(it, LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-            ))
+        with(binding.characterInfoContainer) {
+            TransitionManager.beginDelayedTransition(this, TransitionSet().apply {
+                addTransition(Slide(Gravity.BOTTOM))
+                addTransition(Fade())
+            })
+
+            characterInfoViews.onEach {
+                addView(it, LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                ))
+            }
         }
     }
 
@@ -174,7 +186,9 @@ class MarvelCharacterActivity : AppCompatActivity() {
                     .scaleX(0f)
                     .setListener(object : ViewPropertyAnimatorListenerAdapter() {
                         override fun onAnimationEnd(view: View?) {
-                            binding.collapsingToolbar.title = viewModel.title
+                            if (isCharacterNameCardHidden) {
+                                binding.collapsingToolbar.title = viewModel.title
+                            }
                             animator.setListener(null)
                         }
                     })
@@ -197,9 +211,14 @@ class MarvelCharacterActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.home -> finishAfterTransition()
+            R.id.home -> finish()
         }
         return true
+    }
+
+    override fun finish() {
+        super.finish()
+        overrideExitTransition()
     }
 }
 

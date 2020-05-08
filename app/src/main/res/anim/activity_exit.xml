@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:duration="@integer/activityTransitionAnimationDuration">
+
+    <scale
+        android:fromXScale="100%p"
+        android:toXScale="50%p"
+        android:fromYScale="100%p"
+        android:toYScale="50%p"
+        android:pivotX="50%p"
+        android:pivotY="50%p"
+        android:interpolator="@android:anim/accelerate_decelerate_interpolator" />
+</set>

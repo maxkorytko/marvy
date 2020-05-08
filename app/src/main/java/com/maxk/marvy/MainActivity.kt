@@ -8,6 +8,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 import com.maxk.marvy.databinding.ActivityMainBinding
 import com.maxk.marvy.characters.MarvelCharactersFragment
+import com.maxk.marvy.extensions.overrideEnterTransition
 import com.maxk.marvy.search.SearchableActivity
 
 class MainActivity : FragmentActivity() {
@@ -53,6 +54,7 @@ class MainActivity : FragmentActivity() {
 
         binding.titleView.onSearchBarClicked = {
             SearchableActivity.start(this)
+            overrideEnterTransition()
         }
 
         binding.alphabetViewPager.adapter = ViewPagerAdapter(this)

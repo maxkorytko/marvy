@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.app.ActivityOptionsCompat
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.paging.PagedList
@@ -12,6 +11,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.maxk.marvy.R
 import com.maxk.marvy.databinding.MarvelCharactersListBinding
+import com.maxk.marvy.extensions.overrideEnterTransition
 import com.maxk.marvy.model.marvel.MarvelCharacter
 
 class MarvelCharactersListFragment : Fragment() {
@@ -64,19 +64,8 @@ class MarvelCharactersListFragment : Fragment() {
     }
 
     private fun show(character: MarvelCharacter, sharedElement: View) {
-        if (activity == null) {
-            MarvelCharacterActivity.start(context, character)
-            return
-        }
-
-        activity?.let {
-            val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                it,
-                sharedElement,
-                MarvelCharacterActivity.VIEW_NAME_CHARACTER_NAME
-            )
-            MarvelCharacterActivity.start(this.context, character, options.toBundle())
-        }
+        MarvelCharacterActivity.start(context, character)
+        activity?.overrideEnterTransition()
     }
 
     fun submitList(characters: PagedList<MarvelCharacter>?) = with(binding.charactersList) {

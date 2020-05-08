@@ -4,6 +4,7 @@ import android.app.SearchManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
@@ -16,6 +17,7 @@ import com.maxk.marvy.api.Loading
 import com.maxk.marvy.api.NetworkRequestStatusHandler
 import com.maxk.marvy.characters.MarvelCharactersListFragment
 import com.maxk.marvy.databinding.ActivitySearchBinding
+import com.maxk.marvy.extensions.overrideExitTransition
 import com.maxk.marvy.extensions.showKeyboard
 
 class SearchableActivity : AppCompatActivity() {
@@ -129,5 +131,17 @@ class SearchableActivity : AppCompatActivity() {
 
             binding.collapsingToolbar.layoutParams = it
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> finish()
+        }
+        return true
+    }
+
+    override fun finish() {
+        super.finish()
+        overrideExitTransition()
     }
 }
