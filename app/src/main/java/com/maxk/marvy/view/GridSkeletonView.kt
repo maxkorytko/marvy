@@ -19,6 +19,7 @@ class GridSkeletonView @JvmOverloads constructor(
 
     init {
         orientation = VERTICAL
+        gravity = Gravity.CENTER_VERTICAL
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {

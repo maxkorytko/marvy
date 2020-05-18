@@ -74,7 +74,7 @@ class MainActivity : FragmentActivity() {
         override fun getItemCount(): Int = ALPHABET.size
 
         override fun createFragment(position: Int): Fragment {
-            return MarvelCharactersFragment(searchTerm = ALPHABET[position])
+            return MarvelCharactersFragment.init(searchTerm = ALPHABET[position])
         }
     }
 }

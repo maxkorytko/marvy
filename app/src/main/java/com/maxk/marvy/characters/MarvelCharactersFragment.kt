@@ -13,7 +13,17 @@ import com.maxk.marvy.api.NetworkRequestStatusHandler
 import com.maxk.marvy.characters.viewmodels.MarvelCharactersViewModel
 import com.maxk.marvy.databinding.MarvelCharactersBinding
 
-class MarvelCharactersFragment(private val searchTerm: String) : Fragment() {
+class MarvelCharactersFragment : Fragment() {
+    companion object {
+        private const val SEARCH_TERM = "marvel_character_search_term"
+
+        fun init(searchTerm: String): MarvelCharactersFragment = MarvelCharactersFragment().apply {
+            arguments = Bundle().apply { putString(SEARCH_TERM, searchTerm) }
+        }
+    }
+
+    private val searchTerm: String by lazy { arguments?.getString(SEARCH_TERM) ?: "" }
+
     private val viewModel: MarvelCharactersViewModel by viewModels(
         factoryProducer = { MarvelCharactersViewModel.Factory(searchTerm) }
     )
