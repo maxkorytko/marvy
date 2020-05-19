@@ -12,3 +12,15 @@ The app is pulling the data from [Marvel API](https://developer.marvel.com/) and
 - Material Components
 
 ### Screenshots
+
+![Characters List](https://github.com/maxkorytko/marvy/blob/develop/screenshots/characters_list.png)
+
+![Characters List 2](https://github.com/maxkorytko/marvy/blob/develop/screenshots/characters_list_2.png)
+
+![Character Details](https://github.com/maxkorytko/marvy/blob/develop/screenshots/character_details.png)
+
+![Character Details_2](https://github.com/maxkorytko/marvy/blob/develop/screenshots/character_details_2.png)
+
+![Character Details_3](https://github.com/maxkorytko/marvy/blob/develop/screenshots/character_details_3.png)
+
+![Character Search](https://github.com/maxkorytko/marvy/blob/develop/screenshots/character_search.png)
