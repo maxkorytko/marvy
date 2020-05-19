@@ -6,6 +6,8 @@ apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'kotlin-kapt'
 
+apply plugin: "androidx.navigation.safeargs.kotlin"
+
 def loadAppConfig() {
     def propertiesFile = project.rootProject.file("marvy.properties")
     def properties = new Properties()
@@ -55,10 +57,14 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'com.google.android.material:material:1.2.0-alpha04'
     implementation 'androidx.viewpager2:viewpager2:1.0.0'
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.2.0"
-    implementation "androidx.navigation:navigation-fragment-ktx:$varsion_navigation"
-    implementation "androidx.navigation:navigation-ui-ktx:$varsion_navigation"
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
     implementation "androidx.paging:paging-runtime-ktx:$version_paging"
+    implementation 'androidx.recyclerview:recyclerview-selection:1.0.0'
+    implementation 'androidx.fragment:fragment:1.2.4'
+
+    // Navigation
+    implementation "androidx.navigation:navigation-fragment-ktx:$version_navigation"
+    implementation "androidx.navigation:navigation-ui-ktx:$version_navigation"
 
     // Coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$version_kotlin_coroutines"

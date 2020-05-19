@@ -15,12 +15,15 @@ import com.maxk.marvy.R
 import com.maxk.marvy.api.Complete
 import com.maxk.marvy.api.Loading
 import com.maxk.marvy.api.NetworkRequestStatusHandler
+import com.maxk.marvy.characters.MarvelCharacterActivity
 import com.maxk.marvy.characters.MarvelCharactersListFragment
 import com.maxk.marvy.databinding.ActivitySearchBinding
 import com.maxk.marvy.extensions.overrideExitTransition
 import com.maxk.marvy.extensions.showKeyboard
+import com.maxk.marvy.model.marvel.MarvelCharacter
 
-class SearchableActivity : AppCompatActivity() {
+class SearchableActivity : AppCompatActivity(),
+    MarvelCharactersListFragment.MarvelCharacterSelectionListener {
     companion object {
         fun start(context: Context?) {
             context?.let {
@@ -45,6 +48,7 @@ class SearchableActivity : AppCompatActivity() {
 
         charactersListFragment = supportFragmentManager.findFragmentById(
             R.id.characters_list_fragment) as? MarvelCharactersListFragment
+        charactersListFragment?.characterSelectionListener = this
 
         searchRequestStatusHandler =
             NetworkRequestStatusHandler(
@@ -143,5 +147,9 @@ class SearchableActivity : AppCompatActivity() {
     override fun finish() {
         super.finish()
         overrideExitTransition()
+    }
+
+    override fun onMarvelCharacterSelected(character: MarvelCharacter) {
+        MarvelCharacterActivity.start(this, character)
     }
 }

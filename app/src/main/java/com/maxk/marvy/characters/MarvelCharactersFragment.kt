@@ -7,25 +7,35 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.maxk.marvy.R
 import com.maxk.marvy.api.Loading
 import com.maxk.marvy.api.NetworkRequestStatusHandler
 import com.maxk.marvy.characters.viewmodels.MarvelCharactersViewModel
 import com.maxk.marvy.databinding.MarvelCharactersBinding
+import com.maxk.marvy.model.marvel.MarvelCharacter
 
-class MarvelCharactersFragment : Fragment() {
+class MarvelCharactersFragment : Fragment(),
+    MarvelCharactersListFragment.MarvelCharacterSelectionListener {
     companion object {
-        private const val SEARCH_TERM = "marvel_character_search_term"
+        private const val SEARCH_TERM = "marvel_characters_search_term"
+        private const val IS_TABLET = "marvel_characters_is_tablet"
 
-        fun init(searchTerm: String): MarvelCharactersFragment = MarvelCharactersFragment().apply {
-            arguments = Bundle().apply { putString(SEARCH_TERM, searchTerm) }
-        }
+        fun newInstance(searchTerm: String?, isTablet: Boolean = false): MarvelCharactersFragment =
+            MarvelCharactersFragment().apply {
+                arguments = Bundle().apply {
+                    putString(SEARCH_TERM, searchTerm)
+                    putBoolean(IS_TABLET, isTablet)
+                }
+            }
     }
 
-    private val searchTerm: String by lazy { arguments?.getString(SEARCH_TERM) ?: "" }
+    private val searchTerm: String? by lazy { arguments?.getString(SEARCH_TERM) }
+
+    private val isTablet: Boolean by lazy { arguments?.getBoolean(IS_TABLET) ?: false }
 
     private val viewModel: MarvelCharactersViewModel by viewModels(
-        factoryProducer = { MarvelCharactersViewModel.Factory(searchTerm) }
+        factoryProducer = { MarvelCharactersViewModel.Factory(searchTerm ?: "") }
     )
 
     private lateinit var binding: MarvelCharactersBinding
@@ -39,9 +49,15 @@ class MarvelCharactersFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
 
         binding = MarvelCharactersBinding.inflate(layoutInflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         charactersListFragment = childFragmentManager.findFragmentById(
             R.id.characters_list_fragment) as? MarvelCharactersListFragment
+        charactersListFragment?.characterSelectionListener = this
 
         pagingRequestStatusHandler = NetworkRequestStatusHandler(
             charactersListFragment?.view,
@@ -50,8 +66,6 @@ class MarvelCharactersFragment : Fragment() {
         )
 
         setupObservations()
-
-        return binding.root
     }
 
     private fun setupObservations() {
@@ -63,8 +77,22 @@ class MarvelCharactersFragment : Fragment() {
             }
         }
 
-        viewModel.characters.observe({ this.lifecycle}) { characters ->
+        viewModel.characters.observe({ this.lifecycle }) { characters ->
             charactersListFragment?.submitList(characters)
         }
+    }
+
+    override fun onMarvelCharacterSelected(character: MarvelCharacter) {
+        if (isTablet) {
+            showMarvelCharacter(character)
+        } else {
+            MarvelCharacterActivity.start(activity, character)
+        }
+    }
+
+    private fun showMarvelCharacter(character: MarvelCharacter) {
+        findNavController().navigate(
+            TabletMarvelCharactersFragmentDirections.actionMarvelCharacter(character)
+        )
     }
 }

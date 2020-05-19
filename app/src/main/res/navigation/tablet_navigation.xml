@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/tablet_nav_graph"
+    app:startDestination="@id/marvelCharactersFragment">
+    <fragment
+        android:id="@+id/marvelCharactersFragment"
+        android:name="com.maxk.marvy.characters.TabletMarvelCharactersFragment"
+        android:label="MarvelCharactersFragment">
+        <argument
+            android:name="searchTerm"
+            app:argType="string"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_marvel_character"
+            app:destination="@id/marvelCharacterFragment"
+            app:enterAnim="@anim/transition_enter"
+            app:exitAnim="@anim/transition_exit"
+            app:popExitAnim="@anim/transition_enter_reverse" />
+    </fragment>
+    <fragment
+        android:id="@+id/marvelCharacterFragment"
+        android:name="com.maxk.marvy.characters.MarvelCharacterFragment"
+        android:label="MarvelCharacterFragment" >
+        <argument
+            android:name="character"
+            app:argType="com.maxk.marvy.model.marvel.MarvelCharacter" />
+    </fragment>
+</navigation>

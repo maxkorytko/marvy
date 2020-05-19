@@ -6,22 +6,29 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.maxk.marvy.R
 import com.maxk.marvy.databinding.MarvelCharactersListBinding
-import com.maxk.marvy.extensions.overrideEnterTransition
 import com.maxk.marvy.model.marvel.MarvelCharacter
 
 class MarvelCharactersListFragment : Fragment() {
+    interface MarvelCharacterSelectionListener {
+        fun onMarvelCharacterSelected(character: MarvelCharacter)
+    }
+
     private lateinit var binding: MarvelCharactersListBinding
+
+    var characterSelectionListener: MarvelCharacterSelectionListener? = null
 
     private val adapter: MarvelCharactersAdapter by lazy {
         MarvelCharactersAdapter(object :
             MarvelCharactersAdapter.CharacterClickListener {
             override fun onClick(character: MarvelCharacter, view: View) {
-                show(character, sharedElement = view.findViewById(R.id.characterName))
+                characterSelectionListener?.onMarvelCharacterSelected(character)
             }
         })
     }
@@ -48,12 +55,13 @@ class MarvelCharactersListFragment : Fragment() {
     }
 
     private fun createRecyclerViewLayoutManager(): RecyclerView.LayoutManager {
-        val layoutManager = GridLayoutManager(activity, 2)
+        val spanCount = resources.getInteger(R.integer.marvelCharactersGridSpanCount)
+        val layoutManager = GridLayoutManager(activity, spanCount)
 
         layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
                 if (displaysPagingIndicator) {
-                    return if (position == adapter.itemCount - 1) 2 else 1
+                    return if (position == adapter.itemCount - 1) spanCount else 1
                 }
 
                 return 1
@@ -61,11 +69,6 @@ class MarvelCharactersListFragment : Fragment() {
         }
 
         return layoutManager
-    }
-
-    private fun show(character: MarvelCharacter, sharedElement: View) {
-        MarvelCharacterActivity.start(context, character)
-        activity?.overrideEnterTransition()
     }
 
     fun submitList(characters: PagedList<MarvelCharacter>?) = with(binding.charactersList) {

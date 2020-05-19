@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <fragment
-        android:id="@+id/viewPagerFragment"
-        android:name="com.maxk.marvy.characters.MarvelCharactersViewPagerFragment"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/homeFragment"
+        android:name="com.maxk.marvy.TabletHomeFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

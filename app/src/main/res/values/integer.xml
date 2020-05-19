@@ -2,4 +2,5 @@
 <resources>
     <item name="animationDurationShort" type="integer">500</item>
     <item name="activityTransitionAnimationDuration" type="integer">300</item>
+    <item name="marvelCharactersGridSpanCount" type="integer">2</item>
 </resources>

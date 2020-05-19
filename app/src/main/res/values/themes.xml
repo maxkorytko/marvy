@@ -6,7 +6,6 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorOnPrimary">@color/colorOnPrimary</item>
         <item name="colorOnPrimary25">@color/colorOnPrimary25</item>
-        <item name="colorOnPrimary50">@color/colorOnPrimary50</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">?colorPrimaryDark</item>
         <item name="android:textColorPrimary">@color/textColorPrimary</item>

@@ -49,7 +49,7 @@ class MarvelCharacterInfoView(context: Context, private val characterInfo: Chara
             CharacterPowerStats::intelligence,
             CharacterPowerStats::speed
         ).mapNotNull { property ->
-            property.getter.call(powerStats)?.toIntOrNull()?.let {
+            property.getter.call(powerStats).toIntOrNull()?.let {
                 Pair(property.name.capitalize(), it)
             }
         }.map(::buildPowerStatView)
