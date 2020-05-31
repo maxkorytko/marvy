@@ -10,6 +10,10 @@ The app is pulling the data from [Marvel API](https://developer.marvel.com/) and
 - Retrofit
 - Kotlin Coroutines
 - Material Components
+- Custom Animations
+- Tablet UI
+- Jetpack Recycler View Selection Library (tablet only)
+- Jetpack Navigation (tablet only)
 
 ### Screenshots
 
@@ -24,3 +28,9 @@ The app is pulling the data from [Marvel API](https://developer.marvel.com/) and
 ![Character Details_3](https://github.com/maxkorytko/marvy/blob/develop/screenshots/character_details_3.png)
 
 ![Character Search](https://github.com/maxkorytko/marvy/blob/develop/screenshots/character_search.png)
+
+![Tablet Characters in Portrait](https://github.com/maxkorytko/marvy/blob/develop/screenshots/tablet_characters_list_portrait.png)
+
+![Tablet Character Details](https://github.com/maxkorytko/marvy/blob/develop/screenshots/tablet_character_details.png)
+
+![Tablet Characters List in Landscape](https://github.com/maxkorytko/marvy/blob/develop/screenshots/tablet_characters_list_landscape.png)
