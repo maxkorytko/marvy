@@ -17,6 +17,8 @@ class GridSkeletonView @JvmOverloads constructor(
 
     private val blocks: MutableList<View> = ArrayList()
 
+    private val columns = resources.getInteger(R.integer.marvelCharactersGridSpanCount)
+
     init {
         orientation = VERTICAL
         gravity = Gravity.CENTER_VERTICAL
@@ -40,8 +42,8 @@ class GridSkeletonView @JvmOverloads constructor(
     }
 
     private fun createBlocks(parentWidth: Int, parentHeight: Int): List<View> {
-        // Assuming that the grid has two columns, there is a margin on both sides of each column.
-        var blockSize = (parentWidth / 2) - (space * 4)
+        // There is a margin on both sides of each column.
+        var blockSize = (parentWidth / columns) - (space * columns * 2)
         var blocksCount = parentHeight / blockSize
         // There is a margin on both sides of the block.
         val spaceAvailable = parentHeight - (blocksCount * space * 2)
@@ -69,7 +71,7 @@ class GridSkeletonView @JvmOverloads constructor(
         container.orientation = HORIZONTAL
         container.gravity = Gravity.CENTER
 
-        (1..2).forEach {
+        (1..columns).forEach { _ ->
             val layoutParams = LayoutParams(size, size)
             layoutParams.setMargins(space, space, space, space)
 
